@@ -85,3 +85,73 @@ content:
       create: true
       rename: true
       delete: true
+  - name: field_notes
+    label: Field Notes
+    type: file
+    path: content/field-notes.json
+    format: json
+    list: true
+    view:
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Note title
+        type: string
+        required: true
+      - name: slug
+        label: URL slug
+        type: string
+        required: true
+        description: Lowercase words separated by hyphens. Keep each slug unique.
+      - name: category
+        label: Category
+        type: select
+        options:
+          values:
+            - label: Building & Making
+              value: Building & Making
+            - label: AI Video & Storytelling
+              value: AI Video & Storytelling
+            - label: Tools & Experiments
+              value: Tools & Experiments
+            - label: Ideas & Discoveries
+              value: Ideas & Discoveries
+            - label: Places & Experiences
+              value: Places & Experiences
+            - label: Life & Other Interests
+              value: Life & Other Interests
+            - label: Lessons & Reflections
+              value: Lessons & Reflections
+      - name: date
+        label: Publication date
+        type: string
+      - name: readTime
+        label: Reading time
+        type: string
+      - name: excerpt
+        label: Short introduction
+        type: text
+      - name: cover
+        label: Cover image
+        type: image
+        options:
+          path: public/uploads
+          extensions: [jpg, jpeg, png, webp]
+      - name: body
+        label: Article
+        type: rich-text
+      - name: status
+        label: Publishing status
+        type: select
+        options:
+          values:
+            - label: Draft
+              value: Draft
+            - label: Published
+              value: Published
+    operations:
+      create: true
+      rename: true
+      delete: true
