@@ -161,3 +161,23 @@
  .contact-section{width:calc(100% - 36px);padding:24px 18px 26px!important;margin-bottom:20px}
  .contact-section h2{font-size:32px}
 }
+
+
+/* Clear, calm contrast between the audience, about and contact sections */
+.audience-section{
+  background:#F1E3D9;
+}
+.about-section{
+  background:var(--paper);
+  border-top:1px solid #E5DAD0;
+}
+.contact-section{
+  background:#EDE7DF!important;
+}
+.contact-section:before{
+  background:
+    radial-gradient(ellipse at 91% 18%,rgba(185,110,88,.12),transparent 25%),
+    radial-gradient(ellipse at 84% 52%,rgba(183,168,154,.13),transparent 29%),
+    radial-gradient(ellipse at 96% 82%,rgba(185,110,88,.08),transparent 24%)!important;
+  filter:blur(15px);
+}
