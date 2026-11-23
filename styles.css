@@ -308,3 +308,56 @@
 .note-article-body li::marker{color:var(--terracotta)}
 .note-article-body blockquote{margin:34px 0;padding:23px 28px;border-left:3px solid var(--terracotta);background:#F1E3D9;border-radius:0 10px 10px 0;color:#8E4934;font:italic 22px/1.55 "Playfair Display",serif}
 @media(max-width:700px){.note-article{max-width:100%}.note-article .note-hero-image{aspect-ratio:4/3;margin:25px 0 30px}.note-article-body{font-size:16px;line-height:1.8}.note-article-body h2{margin:36px 0 13px;font-size:27px}.note-article-body blockquote{padding:18px 20px;font-size:19px}}
+
+
+/* Field Note: editorial long-form article layout */
+.note-article{max-width:none;margin:0 auto}
+.note-breadcrumb{display:flex;gap:12px;align-items:center;font-size:12px;color:var(--muted);margin:0 0 28px;white-space:nowrap;overflow:hidden}
+.note-breadcrumb a{color:#8e4934}
+.note-hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);gap:42px;align-items:center;padding:0 0 30px;border-bottom:1px solid #e8e0d7;margin-bottom:22px}
+.note-hero-copy{min-width:0}
+.note-hero .eyebrow{font-size:11px;letter-spacing:1.5px;margin:0 0 18px}
+.note-hero h1{font:600 clamp(38px,4.3vw,58px)/1.08 "Playfair Display",serif;letter-spacing:-1.7px;margin:0 0 14px;color:#28252d}
+.note-hero .note-deck{font:italic clamp(18px,2vw,23px)/1.4 "Playfair Display",serif;color:#29272b;margin:0 0 26px}
+.note-hero-image{display:block;width:100%;height:auto;aspect-ratio:1.55;object-fit:cover;border-radius:15px;margin:0}
+.note-author{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--ink);margin-top:26px}
+.note-author img{width:54px;height:54px;border-radius:50%;object-fit:cover;object-position:center 25%}
+.note-author div{display:flex;flex-direction:column;gap:2px}
+.note-author strong{font-size:13px}.note-author span{color:var(--muted)}
+.note-author i{height:38px;width:1px;background:#cbbfb2;margin:0 18px}
+.note-author time{font:14px "Playfair Display",serif;white-space:nowrap}
+.note-article-body{font-size:16px;line-height:1.55;color:#29272b}
+.note-introduction{margin:0 0 16px}
+.note-introduction p{margin:0 0 10px}
+.note-introduction p:first-child:first-letter{float:left;font:600 52px/.8 "Playfair Display",serif;color:var(--terracotta);padding:4px 7px 0 0}
+.note-article-body h2{font:600 clamp(25px,2.7vw,31px)/1.18 "Playfair Display",serif;color:#24232a;margin:30px 0 9px;padding-left:16px;border-left:4px solid var(--terracotta);letter-spacing:-.5px}
+.note-article-body p{margin:0 0 11px}
+.note-article-body strong{font-weight:700;color:#24232a}
+.note-article-body em{color:#9E4F39}
+.note-article-body ul{margin:8px 0 14px;padding:0 0 0 25px}
+.note-article-body li{padding-left:4px;margin:0 0 3px;line-height:1.45}
+.note-article-body li::marker{color:var(--terracotta)}
+.note-feature-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(240px,.8fr);gap:36px;align-items:center;margin:0 0 10px}
+.note-feature-copy h2{margin-top:0}
+.note-pullquote{padding:28px 30px;background:#f5ece3;border-radius:18px;color:#8f482f;font:italic 22px/1.35 "Playfair Display",serif}
+.note-tools-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.82fr);gap:32px;align-items:center;margin:0 0 8px}
+.note-tools-copy h2{margin-top:0}
+.note-takeaways{background:#f5ece3;border-radius:18px;padding:22px 25px}
+.takeaways-label{font:700 12px "DM Sans",sans-serif!important;letter-spacing:1.7px;color:#9e4c32;margin:0 0 12px!important}
+.note-takeaways ul{list-style:none;padding:0;margin:0}
+.note-takeaways li{position:relative;padding-left:24px;margin:0 0 9px;font-size:13px;line-height:1.45}
+.note-takeaways li:before{content:"✓";position:absolute;left:0;color:#a64e33;font-weight:700}
+.note-article-body blockquote{margin:24px 0;padding:15px 22px;border-left:3px solid var(--terracotta);background:#f5ece3;color:#8e4934;font:italic 21px/1.45 "Playfair Display",serif}
+.note-back{display:inline-block;color:var(--terracotta);font-size:13px;margin:30px 0}
+@media(max-width:760px){
+ .note-breadcrumb{margin-bottom:20px;font-size:11px;gap:8px}
+ .note-hero{grid-template-columns:1fr;gap:22px;padding-bottom:24px}
+ .note-hero h1{font-size:clamp(38px,10vw,52px)}
+ .note-hero-image{grid-row:2;aspect-ratio:1.45}
+ .note-author{margin-top:18px;gap:9px}.note-author img{width:46px;height:46px}.note-author i{margin:0 8px}
+ .note-article-body{font-size:15px;line-height:1.65}
+ .note-article-body h2{font-size:26px;margin:28px 0 10px}
+ .note-feature-grid,.note-tools-grid{grid-template-columns:1fr;gap:14px}
+ .note-pullquote{padding:22px 24px;font-size:20px}
+ .note-takeaways{padding:20px}
+}
