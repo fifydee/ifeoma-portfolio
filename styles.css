@@ -51,3 +51,8 @@
 .node-left{left:17%;top:69%}
 .node-upper-left{left:17%;top:31%}
 @media(max-width:760px){.audience-diagram{width:min(100%,340px)}}
+
+/* Tighten the transition from the hero divider to the services heading */
+.hero{padding-bottom:0}
+.services-section{padding-top:22px}
+@media(max-width:700px){.hero{padding-bottom:0}.services-section{padding-top:18px}}
