@@ -233,3 +233,59 @@
 @media(max-width:760px){
   .hero h1{font-size:clamp(40px,9.5vw,54px);line-height:1.12;letter-spacing:-1.5px}
 }
+
+
+/* Mobile navigation: compact brand header with an accessible dropdown menu */
+.menu-toggle{display:none}
+@media(max-width:760px){
+  .site-header{
+    position:relative;
+    z-index:20;
+    height:76px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .brand-logo{width:min(210px,calc(100vw - 92px));max-width:none;height:54px;flex:0 1 auto}
+  .menu-toggle{
+    display:flex;
+    flex:0 0 44px;
+    width:44px;
+    height:44px;
+    padding:11px 9px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:transparent;
+    color:var(--ink);
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    cursor:pointer;
+  }
+  .menu-toggle span{display:block;width:20px;height:1.5px;background:var(--ink);transition:transform .2s,opacity .2s}
+  .menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(6.5px) rotate(45deg)}
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-6.5px) rotate(-45deg)}
+  .site-header nav{
+    display:none;
+    position:absolute;
+    top:calc(100% + 1px);
+    left:0;
+    right:0;
+    padding:12px 20px 20px;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 12px 18px rgba(47,49,51,.08);
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    font-size:15px;
+  }
+  .site-header nav.is-open{display:flex}
+  .site-header nav a{padding:13px 4px;border-bottom:1px solid var(--line)}
+  .site-header nav a:last-child{margin-top:12px;padding:12px 15px;text-align:center;border:1px solid var(--terracotta);background:var(--terracotta);color:white}
+  .site-header nav a:last-child span{margin-left:8px}
+}
