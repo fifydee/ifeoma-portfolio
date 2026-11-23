@@ -222,3 +222,14 @@
     padding:24px 18px 26px!important;
   }
 }
+
+
+/* Refine hero headline scale so it feels editorial, not oversized */
+.hero h1{
+  font-size:clamp(40px,4.7vw,58px);
+  line-height:1.12;
+  letter-spacing:-1.8px;
+}
+@media(max-width:760px){
+  .hero h1{font-size:clamp(40px,9.5vw,54px);line-height:1.12;letter-spacing:-1.5px}
+}
