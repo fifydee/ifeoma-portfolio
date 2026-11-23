@@ -181,3 +181,44 @@
     radial-gradient(ellipse at 96% 82%,rgba(185,110,88,.08),transparent 24%)!important;
   filter:blur(15px);
 }
+
+
+/* Full-bleed contact section background: extend to both viewport edges */
+.contact-section{
+  position:relative;
+  isolation:isolate;
+  overflow:visible;
+  width:100%;
+  max-width:none;
+  margin:0 0 34px;
+  border-radius:0;
+  background:transparent!important;
+}
+.contact-section:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:0;
+  bottom:0;
+  left:50%;
+  width:100vw;
+  transform:translateX(-50%);
+  border-radius:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 91% 18%,rgba(185,110,88,.12),transparent 25%),
+    radial-gradient(ellipse at 84% 52%,rgba(183,168,154,.13),transparent 29%),
+    radial-gradient(ellipse at 96% 82%,rgba(185,110,88,.08),transparent 24%),
+    #EDE7DF!important;
+  filter:blur(0);
+}
+.contact-section>*{
+  position:relative;
+}
+@media(max-width:760px){
+  .contact-section{
+    width:100%;
+    margin-bottom:20px;
+    padding:24px 18px 26px!important;
+  }
+}
