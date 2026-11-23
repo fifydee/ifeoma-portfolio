@@ -1,0 +1,87 @@
+media:
+  input: public/uploads
+  output: /uploads
+  rename: safe
+  categories: [image]
+
+content:
+  - name: projects
+    label: Portfolio projects
+    type: file
+    path: content/projects.json
+    format: json
+    list: true
+    view:
+      primary: title
+      sort: title
+      order: asc
+    fields:
+      - name: title
+        label: Project title
+        type: string
+        required: true
+      - name: category
+        label: Category
+        type: select
+        options:
+          values:
+            - label: AI video
+              value: AI video
+            - label: Digital products
+              value: Digital products
+            - label: Research & experiments
+              value: Research & experiments
+      - name: year
+        label: Year
+        type: string
+      - name: summary
+        label: Short introduction
+        type: text
+        description: One or two sentences shown on the portfolio card.
+      - name: context
+        label: The idea or brief
+        type: rich-text
+      - name: approach
+        label: Process and approach
+        type: rich-text
+      - name: tools
+        label: Tools and methods
+        type: text
+      - name: outcome
+        label: Outcome
+        type: rich-text
+      - name: learning
+        label: What I learned
+        type: rich-text
+      - name: image
+        label: Project cover image
+        type: image
+        options:
+          path: public/uploads
+          extensions: [jpg, jpeg, png, webp]
+      - name: video
+        label: YouTube or Vimeo link
+        type: string
+        description: Paste a YouTube or Vimeo URL. The video will be embedded in the project details.
+      - name: demo
+        label: Live demo link
+        type: string
+      - name: caseStudy
+        label: More details link
+        type: string
+      - name: featured
+        label: Feature this project
+        type: boolean
+      - name: status
+        label: Publishing status
+        type: select
+        options:
+          values:
+            - label: Draft
+              value: Draft
+            - label: Published
+              value: Published
+    operations:
+      create: true
+      rename: true
+      delete: true
