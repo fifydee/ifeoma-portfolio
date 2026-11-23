@@ -14,7 +14,8 @@
 <body>
   <header class="site-header">
     <a class="brand-logo" href="#top" aria-label="Ifeoma Degge home"><img src="ifeoma-degge-logo-transparent.png" alt="Ifeoma Degge"></a>
-    <nav aria-label="Main navigation">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav id="main-navigation" aria-label="Main navigation">
       <a href="#services">What I do</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact" class="nav-contact">Get in touch <span>↗</span></a>
     </nav>
   </header>
@@ -92,6 +93,24 @@
   </main>
   <footer class="site-footer"><a class="footer-logo" href="#top" aria-label="Ifeoma Degge home"><img src="ifeoma-degge-logo-transparent.png" alt="Ifeoma Degge"></a><span>AI Creative Technologist · Turning Curiosity into Useful Things.</span><a href="#top">Back to top ↑</a></footer>
   <dialog id="project-dialog" class="project-dialog"><button class="dialog-close" aria-label="Close project">×</button><div id="dialog-content"></div></dialog>
+  <script>
+    (() => {
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('#main-navigation');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        toggle.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+        nav.classList.toggle('is-open', !open);
+      });
+      nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+        nav.classList.remove('is-open');
+      }));
+    })();
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
