@@ -110,3 +110,9 @@
 /* Full-bleed divider between services and selected work */
 .work-section{position:relative;border-top:0}
 .work-section:before{content:"";position:absolute;top:0;left:50%;width:100vw;height:1px;background:var(--line);transform:translateX(-50%)}
+
+/* Quiet, botanical CTA texture without a literal photograph */
+.contact-section{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(115deg,#f6eee5 0%,#f4e9dd 52%,#f7efe7 100%);border-radius:18px}
+.contact-section:before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 91% 18%,rgba(120,132,91,.13),transparent 24%),radial-gradient(ellipse at 84% 52%,rgba(120,132,91,.09),transparent 28%),radial-gradient(ellipse at 96% 82%,rgba(120,132,91,.10),transparent 23%);filter:blur(13px)}
+.contact-link{background:#b96e55!important;border-color:#b96e55!important;color:#fff!important}
+.contact-link:hover{background:#a85c43!important;border-color:#a85c43!important}
