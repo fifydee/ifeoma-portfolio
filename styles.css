@@ -96,3 +96,17 @@
   .work-section{padding-top:44px;padding-bottom:80px}
   .contact-section{padding-top:75px;padding-bottom:80px}
 }
+
+
+/* Service cards: consistent image panels and no exposed gaps */
+.service-card{padding:0 30px 30px;overflow:hidden;border-radius:4px}
+.service-image{display:block;width:calc(100% + 60px);height:220px;max-width:none;object-fit:cover;object-position:center;margin:0 -30px 25px;border-radius:0}
+.service-card .service-number,.service-card h3,.service-card p,.service-card ul{margin-left:0;margin-right:0}
+.service-card ul{padding-left:18px}
+@media(max-width:700px){
+  .service-card{padding:0 23px 25px}
+  .service-image{width:calc(100% + 46px);height:190px;margin:0 -23px 22px}
+}
+/* Full-bleed divider between services and selected work */
+.work-section{position:relative;border-top:0}
+.work-section:before{content:"";position:absolute;top:0;left:50%;width:100vw;height:1px;background:var(--line);transform:translateX(-50%)}
