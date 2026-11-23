@@ -17,3 +17,9 @@ Recommended hosting: Cloudflare Pages connected to this GitHub repository, using
 - Add the supplied wide Ifeoma Degge logo asset; the current navigation uses a temporary text wordmark.
 - Confirm the public contact method and replace the social-link placeholder in the contact section.
 - Add real project content and cover images through Pages CMS.
+
+## Field Notes
+
+A separate Field Notes page is available at `field-notes.html`. Manage posts in Pages CMS under **Field Notes**. Add a title and unique URL slug, choose one of the seven categories, write the article in the rich-text editor, optionally upload a cover image, and choose Draft or Published. Drafts stay hidden from the public page.
+
+The first published note is **How I Built My Portfolio Website with ChatGPT and GitHub**.
