@@ -292,3 +292,19 @@
 
 /* Field Notes editorial pages */
 .field-notes-main{padding:78px 0 110px}.field-notes-intro{max-width:760px;margin-bottom:54px}.field-notes-intro .eyebrow{margin-bottom:14px}.field-notes-intro h1{font:600 clamp(52px,7vw,82px)/1.04 "Playfair Display",serif;letter-spacing:-2px;margin:0 0 14px}.field-notes-tagline{font:italic clamp(21px,2.6vw,28px)/1.35 "Playfair Display",serif;color:var(--terracotta);margin:0 0 15px}.field-notes-intro>p:last-child{color:var(--muted);max-width:650px;font-size:16px}.notes-controls{display:flex;gap:9px;flex-wrap:wrap;margin:34px 0 30px}.note-filter{border:1px solid var(--line);background:transparent;border-radius:30px;padding:9px 14px;color:var(--muted);font:500 12px "DM Sans",sans-serif;cursor:pointer}.note-filter.active,.note-filter:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}.notes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:42px 26px}.note-card{background:var(--white);border:1px solid var(--line);overflow:hidden}.note-card-image{display:block;width:100%;aspect-ratio:1.7;object-fit:cover;background:#eee7df}.note-card-copy{padding:22px 24px 25px}.note-card-meta{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--terracotta);font-weight:700}.note-card h2{font:600 clamp(23px,2.7vw,31px)/1.2 "Playfair Display",serif;margin:9px 0}.note-card p{font-size:14px;color:var(--muted);line-height:1.7;margin:0 0 15px}.note-read-link{font:600 14px "Playfair Display",serif;color:#9E3F17}.note-article{max-width:760px;margin:0 auto}.note-back{display:inline-block;color:var(--terracotta);font-size:13px;margin-bottom:35px}.note-article h1{font:600 clamp(38px,6vw,64px)/1.1 "Playfair Display",serif;letter-spacing:-1.5px;margin:12px 0}.note-article .note-deck{font:italic 21px/1.5 "Playfair Display",serif;color:var(--muted)}.note-article .note-hero-image{width:100%;max-height:460px;object-fit:cover;margin:28px 0}.note-article-body{font-size:16px;line-height:1.9;color:#514e49}.note-article-body h2{font:600 29px/1.2 "Playfair Display",serif;color:var(--ink);margin:38px 0 12px}.note-article-body p{margin:0 0 19px}.note-article-body strong{color:var(--ink)}.note-article-body blockquote{border-left:2px solid var(--terracotta);padding-left:20px;color:var(--terracotta);font:italic 20px/1.5 "Playfair Display",serif;margin:28px 0}@media(max-width:700px){.field-notes-main{padding:52px 0 75px}.notes-grid{grid-template-columns:1fr;gap:25px}.note-card-copy{padding:19px}.field-notes-intro h1{font-size:54px}}
+
+
+/* Field Notes article typography and cover treatment */
+.note-article{max-width:900px}
+.note-article-header{max-width:760px;margin:0 auto}
+.note-article .note-hero-image{display:block;width:100%;max-height:500px;aspect-ratio:16/8.5;object-fit:cover;object-position:center 42%;margin:34px 0 42px;border-radius:8px}
+.note-article-body{max-width:760px;margin:0 auto;font-size:17px;line-height:1.85;color:#514e49}
+.note-article-body p{margin:0 0 22px}
+.note-article-body h2{font:600 clamp(26px,3.3vw,34px)/1.2 "Playfair Display",serif;color:var(--ink);margin:48px 0 16px;padding-left:16px;border-left:3px solid var(--terracotta)}
+.note-article-body strong{font-weight:700;color:#292a2c}
+.note-article-body em{color:#9E4F39}
+.note-article-body ul{margin:4px 0 26px;padding:0 0 0 25px}
+.note-article-body li{padding-left:5px;margin:0 0 10px}
+.note-article-body li::marker{color:var(--terracotta)}
+.note-article-body blockquote{margin:34px 0;padding:23px 28px;border-left:3px solid var(--terracotta);background:#F1E3D9;border-radius:0 10px 10px 0;color:#8E4934;font:italic 22px/1.55 "Playfair Display",serif}
+@media(max-width:700px){.note-article{max-width:100%}.note-article .note-hero-image{aspect-ratio:4/3;margin:25px 0 30px}.note-article-body{font-size:16px;line-height:1.8}.note-article-body h2{margin:36px 0 13px;font-size:27px}.note-article-body blockquote{padding:18px 20px;font-size:19px}}
