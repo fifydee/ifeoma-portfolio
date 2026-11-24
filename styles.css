@@ -361,3 +361,32 @@
  .note-pullquote{padding:22px 24px;font-size:20px}
  .note-takeaways{padding:20px}
 }
+
+
+/* Alignment correction: keep long-form Field Notes in one calm, readable column */
+.note-article{width:min(100%,1120px)!important;max-width:1120px!important;margin:0 auto!important}
+.note-hero{width:100%;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);gap:42px;align-items:center}
+.note-hero-copy{width:100%;min-width:0}
+.note-hero-image{width:100%;min-width:0;max-width:100%}
+.note-article-body{display:block!important;width:min(100%,860px)!important;max-width:860px!important;margin:34px auto 0!important;padding:0!important;box-sizing:border-box}
+.note-article-body>*{box-sizing:border-box;max-width:100%}
+.note-article-body p{width:100%;margin:0 0 17px!important;line-height:1.72!important}
+.note-article-body h2{width:100%;margin:38px 0 14px!important;line-height:1.2!important;overflow-wrap:normal;word-break:normal}
+.note-article-body ul{width:100%;padding-left:26px;margin:8px 0 22px}
+.note-article-body li{line-height:1.65!important;margin:0 0 7px!important}
+.note-article-body blockquote{width:100%;margin:28px 0!important;padding:22px 28px!important;line-height:1.5!important}
+.note-takeaways{display:block!important;width:100%!important;max-width:100%!important;margin:36px 0 12px!important;padding:25px 30px!important;background:#f5ece3;border-radius:16px;box-sizing:border-box}
+.note-takeaways ul{list-style:none!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin:0!important;padding:0!important}
+.note-takeaways li{position:relative;padding:0 0 0 25px!important;margin:0!important;font-size:14px;line-height:1.55!important}
+.note-takeaways li:before{content:"✓";position:absolute;left:0;color:#a64e33;font-weight:700}
+.takeaways-label{font:700 12px "DM Sans",sans-serif!important;letter-spacing:1.7px;color:#9e4c32;margin:0 0 17px!important}
+@media(max-width:760px){
+ .note-article{width:100%!important}
+ .note-hero{grid-template-columns:1fr!important;gap:22px}
+ .note-hero-image{grid-row:2}
+ .note-article-body{width:100%!important;max-width:100%!important;margin-top:25px!important;padding:0 2px!important;font-size:16px!important}
+ .note-article-body p{line-height:1.75!important;margin-bottom:16px!important}
+ .note-article-body h2{font-size:26px!important;margin:32px 0 12px!important}
+ .note-takeaways{padding:20px!important}
+ .note-takeaways ul{grid-template-columns:1fr!important;gap:12px}
+}
