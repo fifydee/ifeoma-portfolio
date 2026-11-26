@@ -9,7 +9,7 @@ const CONCEPTS = {
   capitalExpenditure: ["PaymentsToAcquirePropertyPlantAndEquipment"]
 };
 
-export async function onRequestGet({ request }) {
+export async function onRequestGet({ request, env }) {\n  const userAgent = env.SEC_USER_AGENT;\n  if (!userAgent || !/\\S+@\\S+\\.\\S+/.test(userAgent)) return json({ error: "SEC connector is not configured. Set SEC_USER_AGENT to an application name and monitored contact email before enabling requests." }, 503);
   const url = new URL(request.url);
   const raw = (url.searchParams.get("cik") || "").trim();
   if (!/^\\d{1,10}$/.test(raw)) return json({ error: "Provide a valid SEC CIK." }, 400);
@@ -21,7 +21,7 @@ export async function onRequestGet({ request }) {
     const key = new Request(endpoint);
     let response = await cache.match(key);
     if (!response) {
-      response = await fetch(endpoint, { headers: { "User-Agent": SEC_UA, "Accept": "application/json" } });
+      response = await fetch(endpoint, { headers: { "User-Agent": userAgent, "Accept": "application/json" } });
       if (!response.ok) return json({ error: response.status === 404 ? "No SEC XBRL company facts were found for this CIK." : "SEC company facts are temporarily unavailable." }, response.status === 404 ? 404 : 502);
       const body = await response.text();
       const copy = new Response(body, { headers: { "Content-Type": "application/json", "Cache-Control": "public, max-age=1800" } });
