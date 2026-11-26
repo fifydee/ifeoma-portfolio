@@ -1,7 +1,7 @@
 const SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json";
 const SEC_UA = "CompanyLens research preview contact: support@companylens.app";
 
-export async function onRequestGet({ request }) {
+export async function onRequestGet({ request, env }) {\n  const userAgent = env.SEC_USER_AGENT;\n  if (!userAgent || !/\\S+@\\S+\\.\\S+/.test(userAgent)) return json({ error: "SEC connector is not configured. Set SEC_USER_AGENT to an application name and monitored contact email before enabling requests." }, 503);
   const url = new URL(request.url);
   const q = (url.searchParams.get("q") || "").trim().toLowerCase();
   if (q.length < 2) return json({ results: [], notice: "Enter at least two characters." });
@@ -13,7 +13,7 @@ export async function onRequestGet({ request }) {
     let response = await cache.match(cacheKey);
     if (!response) {
       response = await fetch(SEC_TICKERS_URL, {
-        headers: { "User-Agent": SEC_UA, "Accept": "application/json" }
+        headers: { "User-Agent": userAgent, "Accept": "application/json" }
       });
       if (!response.ok) return json({ error: "The SEC company ticker directory is temporarily unavailable." }, 502);
       const copy = new Response(await response.text(), {
