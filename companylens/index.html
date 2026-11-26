@@ -63,6 +63,18 @@
 </div></section>
 <section class="tab-panel" id="tab-sources">
 <div class="source-warning"><strong>Research preview:</strong> The entries below describe intended source classes and methodology. No live filings have been retrieved for this demo, and the sample values elsewhere in the report are not verified company data.</div>
+<div class="panel table-panel" id="sec-lookup-panel">
+<div class="panel-kicker">Live-source integration · United States pilot</div>
+<h3>Look up a US SEC issuer</h3>
+<p class="brief-copy">Search the SEC ticker directory, then retrieve annual XBRL facts and recent filing references for a selected CIK. A ticker-directory match is a candidate, not conclusive proof of current exchange eligibility. Connector requests remain disabled until a monitored SEC contact identity is configured.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0">
+<input id="sec-search-input" aria-label="Search SEC ticker directory" placeholder="Company name or ticker (e.g. Microsoft or MSFT)" style="flex:1;min-width:220px;border:1px solid var(--line);border-radius:4px;padding:11px;font:12px var(--sans)">
+<button class="run-btn" id="sec-search-button" type="button">Search SEC ↗</button>
+</div>
+<div id="sec-search-status" class="brief-copy" aria-live="polite"></div>
+<div id="sec-search-results" class="source-list" style="margin-top:10px"></div>
+<div id="sec-facts-result" style="margin-top:14px"></div>
+</div>
 <div class="source-list">
 <div class="source-item"><div><strong>SEC EDGAR — United States issuers</strong><p>10-K, 10-Q, 8-K and XBRL company facts, where applicable. Official issuer filings and structured financial facts.</p></div><span class="source-status">CONNECTOR PLANNED</span></div>
 <div class="source-item"><div><strong>Issuer investor-relations materials</strong><p>Annual reports, quarterly results, earnings releases and official presentations.</p></div><span class="source-status">CONNECTOR PLANNED</span></div>
@@ -87,6 +99,47 @@ let selected=['msft','nvda','dell'];
 const $=s=>document.querySelector(s);
 const fmt=n=>'$'+n+'bn';
 function company(id){return companies.find(c=>c.id===id)}
+
+function secEl(tag, cls, text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el}
+async function searchSecDirectory(){
+ const input=$('#sec-search-input'), status=$('#sec-search-status'), results=$('#sec-search-results'), factsBox=$('#sec-facts-result');
+ const q=input.value.trim();results.innerHTML='';factsBox.innerHTML='';
+ if(q.length<2){status.textContent='Enter at least two characters.';return}
+ status.textContent='Searching the SEC ticker directory…';$('#sec-search-button').disabled=true;
+ try{
+  const response=await fetch('/api/companylens/search?q='+encodeURIComponent(q),{headers:{Accept:'application/json'}});
+  const payload=await response.json();
+  if(!response.ok)throw new Error(payload.error||'Search service unavailable.');
+  status.textContent=payload.count+' ticker-directory match(es) · '+payload.coverage+' · '+new Date(payload.asOf).toLocaleString();
+  if(!payload.results.length){results.append(secEl('div','empty-state','No matching SEC ticker-directory entries.'));return}
+  payload.results.forEach(item=>{
+   const card=secEl('div','source-item'), left=secEl('div'), title=secEl('strong','',item.name+' ('+item.ticker+')'), detail=secEl('p','', 'CIK '+item.cik+' · '+item.jurisdiction+' · Exchange not supplied by this directory');
+   const choose=secEl('button','outline-btn','Retrieve filing facts');choose.type='button';choose.addEventListener('click',()=>loadSecFacts(item));
+   left.append(title,detail,secEl('p','',item.eligibility));card.append(left,choose);results.append(card);
+  });
+ }catch(err){status.textContent=err.message+' Check that the SEC connector is configured and deployed.'}
+ finally{$('#sec-search-button').disabled=false}
+}
+async function loadSecFacts(item){
+ const box=$('#sec-facts-result');box.innerHTML='';box.append(secEl('p','brief-copy','Retrieving SEC XBRL company facts and recent annual filing references…'));
+ try{
+  const response=await fetch('/api/companylens/facts?cik='+encodeURIComponent(item.cik),{headers:{Accept:'application/json'}});
+  const data=await response.json();if(!response.ok)throw new Error(data.error||'Facts retrieval failed.');
+  box.innerHTML='';
+  const head=secEl('div','panel');head.append(secEl('div','panel-kicker','SEC EDGAR · COMPANY FACTS'),secEl('h3','',data.issuer.name||item.name),secEl('p','brief-copy','CIK '+data.issuer.cik+' · Retrieved '+new Date(data.source.retrievedAt).toLocaleString()));
+  const rows=[];
+  const labels={revenue:'Revenue',operatingIncome:'Operating income',netIncome:'Net income',assets:'Total assets',operatingCashFlow:'Operating cash flow',researchAndDevelopment:'Research & development',capitalExpenditure:'Capital expenditure'};
+  Object.entries(labels).forEach(([key,label])=>{const v=data.metrics[key];rows.push([label,v?Number(v.value).toLocaleString(undefined,{maximumFractionDigits:0})+' '+v.unit:'Not available',v?v.fiscalPeriodEnd+' · '+v.form:'Not found in selected standard concepts',v&&v.filedAt||'—'])});
+  const tbl=secEl('div','table-scroll');const tableEl=document.createElement('table');const thead=document.createElement('thead'),tr=document.createElement('tr');['Metric','Latest annual value','Period / filing type','Filed'].forEach(x=>tr.append(secEl('th','',x)));thead.append(tr);tableEl.append(thead);
+  const tbody=document.createElement('tbody');rows.forEach(row=>{const tr2=document.createElement('tr');row.forEach(value=>tr2.append(secEl('td','',value)));tbody.append(tr2)});tableEl.append(tbody);tbl.append(tableEl);head.append(tbl);
+  const warning=secEl('div','source-warning','Period warning: latest annual observation is selected independently for each concept. Confirm matching fiscal periods before comparing values. Values are reported XBRL facts, but may use different tags, scopes or units.');
+  head.append(warning);box.append(head);
+  const filingPanel=secEl('div','panel table-panel');filingPanel.append(secEl('div','panel-kicker','RECENT ANNUAL FILINGS'),secEl('h3','','Official filing references'));
+  if(data.recentFilings.length){const list=secEl('div','source-list');data.recentFilings.forEach(f=>{const row=secEl('div','source-item'),left=secEl('div'),a=document.createElement('a');a.href=f.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=f.form+' · filed '+f.filingDate;left.append(a,secEl('p','', 'Reporting period: '+(f.reportDate||'Not supplied')));row.append(left,secEl('span','source-status',f.accessionNumber));list.append(row)});filingPanel.append(list)}else filingPanel.append(secEl('p','brief-copy','No recent 10-K, 10-Q, 20-F or 40-F filing references were returned.'));
+  box.append(filingPanel);
+  const note=secEl('p','brief-copy','Source: SEC EDGAR Company Facts API · '+data.source.url);box.append(note);
+ }catch(err){box.innerHTML='';box.append(secEl('div','source-warning',err.message))}
+}
 function renderSelector(){
  const row=$('#company-row');row.innerHTML='';
  selected.forEach(id=>{const c=company(id);if(!c)return;const chip=document.createElement('div');chip.className='company-chip';chip.innerHTML='<span class="company-symbol">'+c.initials+'</span><span><strong>'+c.name+'</strong><small>'+c.ticker+' · '+c.exchange+'</small></span><button class="remove" aria-label="Remove '+c.name+'" data-remove="'+id+'">×</button>';row.append(chip)});
@@ -135,6 +188,8 @@ function analystAnswer(q){
 }
 function askSuggestion(q){$('#chat-input').value=q;$('#chat-form').requestSubmit()}
 $('#chat-form').addEventListener('submit',e=>{e.preventDefault();const input=$('#chat-input'),q=input.value.trim();if(!q)return;addMessage(q,'user');input.value='';setTimeout(()=>addMessage(analystAnswer(q),'assistant'),180)});
+$('#sec-search-button').addEventListener('click',searchSecDirectory);
+$('#sec-search-input').addEventListener('keydown',e=>{if(e.key==='Enter')searchSecDirectory()});
 renderSelector();renderReport();
 </script>
 </body></html>
