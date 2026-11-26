@@ -9,9 +9,9 @@ Cloudflare Pages Functions are implemented in:
 
 Set the Cloudflare Pages environment variable:
 
-- `SEC_USER_AGENT`: an application name followed by a monitored contact email, e.g. `CompanyLens research contact: your-monitored-email@example.com`.
+- `SEC_USER_AGENT`: `CompanyLens/1.0 (corptrace@protonmail.com)`.
 
-The value is intentionally not hard-coded. Do not use an invented email address. Set it in both Preview and Production environments before enabling the connector.
+The value is intentionally not hard-coded in application source. The approved monitored contact is corptrace@protonmail.com. Set this exact value in both Preview and Production environments before enabling the connector.
 
 ## Data and eligibility caveats
 
