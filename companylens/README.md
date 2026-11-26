@@ -20,7 +20,7 @@ An AI company comparison analyst for publicly listed companies worldwide, includ
 
 All demo metrics are illustrative placeholders, not current financial information or actual disclosures. Demo SWOT statements are generic prompts. The local analyst is not connected to a live AI model.
 
-The SEC connector is US-only and is deliberately disabled until a monitored contact identity is configured in Cloudflare Pages as `SEC_USER_AGENT`. Set a genuine application name and monitored contact email in both Preview and Production environments; do not use an invented address. Until configured and deployed, the SEC lookup panel will return a clear configuration message.
+The SEC connector is US-only and is deliberately disabled until a monitored contact identity is configured in Cloudflare Pages as `SEC_USER_AGENT`. Use the approved monitored contact corptrace@protonmail.com and set the value to `CompanyLens/1.0 (corptrace@protonmail.com)` in both Preview and Production environments. Until configured and deployed, the SEC lookup panel will return a clear configuration message.
 
 A ticker-directory match is not conclusive exchange-listing verification. SEC XBRL concepts may omit custom tags, and each metric's latest annual observation can have a different period. No cross-company comparison should be treated as verified until period, unit, currency and issuer eligibility checks pass.
 
