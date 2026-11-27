@@ -8,7 +8,8 @@ An AI company comparison analyst for publicly listed companies worldwide, includ
 
 ## Current implementation
 
-- Responsive research workspace, report navigation, illustrative charts/tables, SWOT layout and local demonstration analyst.
+- Responsive research workspace with live SEC financial retrieval for supported US issuers, report navigation, source-linked financial tables and period-aware comparison warnings.
+- Financial sections show no invented sample values before source retrieval. Missing facts remain unavailable; reported values carry period, filing type and filed date.
 - Print-friendly report output.
 - SEC EDGAR pilot Cloudflare Pages Functions:
   - `/api/companylens/search?q=...` — SEC ticker-directory search.
@@ -18,9 +19,9 @@ An AI company comparison analyst for publicly listed companies worldwide, includ
 
 ## Important limitations
 
-All demo metrics are illustrative placeholders, not current financial information or actual disclosures. Demo SWOT statements are generic prompts. The local analyst is not connected to a live AI model.
+The financial comparison no longer displays invented sample figures. Supported issuer facts are retrieved from SEC Company Facts and labelled as reported XBRL; calculated values are labelled as derived. The SEC makes standard-taxonomy XBRL facts available from company filings, but these facts remain filer-submitted disclosures and are not an SEC audit or guarantee of accuracy. SWOT and competitive analysis remain unpopulated until sourced evidence is available. The local analyst is not connected to a live AI model.
 
-The SEC connector is US-only and is deliberately disabled until a monitored contact identity is configured in Cloudflare Pages as `SEC_USER_AGENT`. Use the approved monitored contact corptrace@protonmail.com and set the value to `CompanyLens/1.0 (corptrace@protonmail.com)` in both Preview and Production environments. Until configured and deployed, the SEC lookup panel will return a clear configuration message.
+The SEC connector is US-only. It requires `SEC_USER_AGENT` in Cloudflare Pages Preview and Production environments, with an application name and monitored contact email. Do not hardcode this identity in client-side code.
 
 A ticker-directory match is not conclusive exchange-listing verification. SEC XBRL concepts may omit custom tags, and each metric's latest annual observation can have a different period. No cross-company comparison should be treated as verified until period, unit, currency and issuer eligibility checks pass.
 
@@ -28,7 +29,7 @@ No live AI model, Nigerian/African exchange connectors, user accounts, saved rep
 
 ## Next engineering milestones
 
-1. Configure and validate the SEC pilot, then add unit/period validation and exchange verification.
+1. Expand the live SEC pilot beyond the initial supported issuers; strengthen unit/period validation, filing-level source links and exchange verification.
 2. Add public exchange registries and filing sources for NGX and other African markets.
 3. Build the secure server-side AI analyst grounded in retrieved filing evidence and the source ledger.
 4. Add report persistence, secure accounts, consent-based email capture and feedback handling.
@@ -47,6 +48,6 @@ Important boundaries:
 - This is a latest-available-annual comparison, not a common-calendar-period or same-fiscal-year comparison. Fiscal year ends differ; the interface displays period dates and warns users before interpreting cross-company differences.
 - Values are displayed in USD billions only when the SEC unit is USD. Other units are displayed as returned.
 - Operating margin is calculated only when revenue and operating income have the same period end for that issuer.
-- Profiles, competitive position, SWOT, innovation/risk prompts, and analyst responses remain demonstration content. They must not be mistaken for live evidence or AI-generated conclusions.
+- Company profiles use basic registry metadata. Competitive position and SWOT now remain unpopulated until sourced evidence is available; the analyst remains a limited local response engine, not live AI.
 - Other companies in the preview registry (currently SAP) are not yet enabled for the live comparison button. Their data should be added only after a verified SEC CIK and successful endpoint test.
 - SEC Company Facts aggregates standard taxonomy facts; company-specific custom tags and disclosures may be missing. See the SEC API documentation: https://www.sec.gov/search-filings/edgar-application-programming-interfaces.
