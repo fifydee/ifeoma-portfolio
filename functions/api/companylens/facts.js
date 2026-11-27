@@ -57,6 +57,14 @@ export async function onRequestGet({ request, env }) {
       }
     } catch { /* Optional filing links do not block facts. */ }
 
+    const filingByAccession = new Map(recentFilings.map(filing => [filing.accessionNumber, filing]));
+    for (const value of Object.values(metrics)) {
+      if (value) {
+        const filing = filingByAccession.get(value.accessionNumber);
+        value.filingUrl = filing?.url || null;
+      }
+    }
+
     const latestAnnualEnd = Object.values(metrics).filter(Boolean)
       .map(x => x.fiscalPeriodEnd).sort().at(-1) || null;
     for (const value of Object.values(metrics)) {
@@ -108,7 +116,9 @@ function latestAnnualObservation(concept, metric, conceptName) {
   return {
     value: item.val,
     unit: selected.unitName,
+    fiscalPeriodStart: item.start || null,
     fiscalPeriodEnd: item.end,
+    durationDays: item.start ? Math.round((Date.parse(item.end) - Date.parse(item.start)) / 86400000) : null,
     fiscalYear: item.fy ?? null,
     fiscalPeriod: item.fp ?? null,
     form: item.form,
