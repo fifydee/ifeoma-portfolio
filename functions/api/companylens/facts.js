@@ -45,10 +45,20 @@ export async function onRequestGet({ request, env }) {
     }
 
     let recentFilings = [];
+    let issuerProfile = null;
     try {
       const subResponse = await fetch(`https://data.sec.gov/submissions/CIK${cik}.json`, { headers: { "User-Agent": userAgent, "Accept": "application/json" } });
       if (subResponse.ok) {
-        const recent = (await subResponse.json()).filings?.recent || {};
+        const submissionData = await subResponse.json();
+        issuerProfile = {
+          sic: submissionData.sic || null,
+          sicDescription: submissionData.sicDescription || null,
+          exchanges: submissionData.exchanges || [],
+          tickers: submissionData.tickers || [],
+          fiscalYearEnd: submissionData.fiscalYearEnd || null,
+          stateOfIncorporation: submissionData.stateOfIncorporation || null
+        };
+        const recent = submissionData.filings?.recent || {};
         recentFilings = (recent.form || []).map((form, i) => ({
           form, filingDate: recent.filingDate?.[i], reportDate: recent.reportDate?.[i],
           accessionNumber: recent.accessionNumber?.[i], primaryDocument: recent.primaryDocument?.[i]
@@ -77,7 +87,7 @@ export async function onRequestGet({ request, env }) {
     }
 
     return json({
-      issuer: { cik, name: facts.entityName || null },
+      issuer: { cik, name: facts.entityName || null, profile: issuerProfile },
       metrics,
       recentFilings,
       source: { name: "SEC EDGAR Company Facts API", url: endpoint, retrievedAt: new Date().toISOString() },
