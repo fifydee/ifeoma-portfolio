@@ -2,11 +2,11 @@ const FORMS = ["10-K", "20-F", "40-F"];
 
 export async function onRequestGet({ request, env }) {
   const userAgent = env.SEC_USER_AGENT;
-  if (!userAgent || !/\\S+@\\S+\\.\\S+/.test(userAgent)) {
+  if (!userAgent || !/\S+@\S+\.\S+/.test(userAgent)) {
     return json({ error: "SEC connector is not configured. Set SEC_USER_AGENT to an application name and monitored contact email." }, 503);
   }
   const cikRaw = (new URL(request.url).searchParams.get("cik") || "").trim();
-  if (!/^\\d{1,10}$/.test(cikRaw)) return json({ error: "Provide a valid SEC CIK." }, 400);
+  if (!/^\d{1,10}$/.test(cikRaw)) return json({ error: "Provide a valid SEC CIK." }, 400);
   const cik = cikRaw.padStart(10, "0");
   try {
     const submissionsResponse = await fetch(`https://data.sec.gov/submissions/CIK${cik}.json`, { headers: { "User-Agent": userAgent, "Accept": "application/json" } });
@@ -22,15 +22,15 @@ export async function onRequestGet({ request, env }) {
     if (!filingResponse.ok) return json({ error: "The latest annual filing document could not be retrieved." }, 502);
     const html = await filingResponse.text();
     const text = html
-      .replace(/<script[\\s\\S]*?<\\/script>/gi, " ")
-      .replace(/<style[\\s\\S]*?<\\/style>/gi, " ")
-      .replace(/<(?:br|\\/p|\\/div|\\/tr|\\/li|\\/h[1-6])\\b[^>]*>/gi, ". ")
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<(?:br|\/p|\/div|\/tr|\/li|\/h[1-6])\b[^>]*>/gi, ". ")
       .replace(/<[^>]+>/g, " ")
       .replace(/&nbsp;|&#160;/gi, " ")
       .replace(/&amp;/gi, "&").replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'")
       .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
-      .replace(/\\s+/g, " ").trim();
-    const sentences = text.split(/(?<=[.!?])\\s+/).map(s => s.trim()).filter(s => s.length > 55 && s.length < 900);
+      .replace(/\s+/g, " ").trim();
+    const sentences = text.split(/(?<=[.!?])\s+/).map(s => s.trim()).filter(s => s.length > 55 && s.length < 900);
     const groups = {
       businessModel: pick(sentences, /membership|warehouse|omni.?channel|e.?commerce|business model|operating segment|net sales|merchandise|subscription/i, 8),
       competition: pick(sentences, /compet(e|ition|itive)|market share|pricing|price leadership|customer experience|market position|retail landscape/i, 8),
