@@ -168,6 +168,13 @@ function generateLiveComparison(){
 function renderLiveComparison(){
  const vals=selected.map(company), entries=vals.map(c=>({company:c,data:liveFactsById[c.id]}));
  const labelKeys=[['revenue','Revenue'],['operatingIncome','Operating income'],['netIncome','Net income'],['assets','Total assets'],['operatingCashFlow','Operating cash flow'],['researchAndDevelopment','R&D expenditure'],['capitalExpenditure','Capital expenditure']];
+ const safeProfileText=value=>String(value??'Not disclosed').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ $('#profile-cards').innerHTML=entries.map(({company:c,data})=>{
+  const p=data.issuer?.profile||{};
+  const exchange=(p.exchanges||[]).join(', ')||c.exchange||'Not available';
+  const ticker=(p.tickers||[]).join(', ')||c.ticker;
+  return '<article class="company-card"><div class="company-card-head"><span class="company-symbol">'+safeProfileText(c.initials)+'</span><div><h3>'+safeProfileText(data.issuer?.name||c.name)+'</h3><small>'+safeProfileText(ticker)+' · '+safeProfileText(exchange)+'</small></div></div><p><strong>SEC CIK:</strong> '+safeProfileText(data.issuer?.cik)+'</p><p><strong>Industry classification:</strong> '+safeProfileText(p.sicDescription)+(p.sic?' (SIC '+safeProfileText(p.sic)+')':'')+'</p><p><strong>Fiscal year end:</strong> '+safeProfileText(p.fiscalYearEnd)+'</p><p><strong>State of incorporation:</strong> '+safeProfileText(p.stateOfIncorporation)+'</p><p>Source: SEC submissions metadata. These are issuer registration details, not a competitive assessment.</p></article>';
+ }).join('');
  const periods=entries.map(x=>x.data.metrics.revenue?.fiscalPeriodEnd||'Period unavailable');
  const periodRange=[...new Set(periods)].length>1;
  const warning=periodRange?'Fiscal-period warning: these companies have different fiscal year-end dates. Values below are each issuer’s latest annual observations, not a same-calendar-period comparison.':'Revenue period end dates match; verify each filing and metric definition before interpreting.';
