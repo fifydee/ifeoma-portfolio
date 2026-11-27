@@ -173,7 +173,8 @@ function renderLiveComparison(){
  const warning=periodRange?'Fiscal-period warning: these companies have different fiscal year-end dates. Values below are each issuer’s latest annual observations, not a same-calendar-period comparison.':'Revenue period end dates match; verify each filing and metric definition before interpreting.';
  $('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — live SEC comparison';
  $('#report-sub').textContent='Reported annual SEC XBRL facts · retrieved '+new Date().toLocaleString()+' · reporting periods shown for each issuer';
- const rows=labelKeys.map(([key,label])=>[label,...entries.map(({data})=>moneyBillions(metricValue(data,key)))]);
+ const factCell=v=>v?moneyBillions(v)+'<small style="display:block;color:#8492a5;font-size:9px;margin-top:4px">'+(v.fiscalPeriodEnd||'Period unavailable')+' · '+(v.form||'Filing type unavailable')+' · filed '+(v.filedAt||'date unavailable')+'</small>':'Not available in selected standard XBRL concepts';
+ const rows=labelKeys.map(([key,label])=>[label,...entries.map(({data})=>factCell(metricValue(data,key)))]);
  rows.push(['Revenue period end',...entries.map(({data})=>data.metrics.revenue?.fiscalPeriodEnd||'Not available')]);
  rows.push(['Revenue filing date',...entries.map(({data})=>data.metrics.revenue?.filedAt||'Not available')]);
  rows.push(['Operating margin (derived)',...entries.map(({data})=>{
@@ -205,6 +206,12 @@ function renderLiveComparison(){
    const row=secEl('div','source-item'),left=secEl('div'),a=document.createElement('a');
    a.href=data.source.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=c.name+' · SEC Company Facts';
    left.append(a,secEl('p','', 'Revenue period: '+(data.metrics.revenue?.fiscalPeriodEnd||'unavailable')+' · Filed: '+(data.metrics.revenue?.filedAt||'unavailable')));
+   if(data.recentFilings&&data.recentFilings.length){
+    const latest=data.recentFilings[0], filing=document.createElement('a');
+    filing.href=latest.url;filing.target='_blank';filing.rel='noopener noreferrer';
+    filing.textContent='Open '+latest.form+' filing · '+latest.filingDate;
+    left.append(filing,secEl('p','', 'Reporting period: '+(latest.reportDate||'not supplied')));
+   }
    row.append(left,secEl('span','source-status','REPORTED XBRL'));list.append(row);
   });
   liveBox.append(list);
