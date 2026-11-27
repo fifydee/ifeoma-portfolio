@@ -31,26 +31,26 @@
 <section class="workspace" id="compare-workspace">
 <div class="section-line"><span class="section-label">01 / Build a comparison</span><span class="step">SELECT 2–5 LISTED COMPANIES</span></div>
 <div class="company-row" id="company-row"></div>
-<div class="workspace-note"><b>Coverage principle:</b> CompanyLens is designed for publicly listed issuers with accessible regulatory or exchange disclosures. This preview uses illustrative sample values only.</div>
+<div class="workspace-note"><b>Coverage principle:</b> CompanyLens is designed for publicly listed issuers with accessible regulatory or exchange disclosures. Figures appear only after retrieval from a cited filing or regulatory source.</div>
 </section>
 <main class="wrap content" id="report">
-<div class="report-head"><div><div class="report-overline">COMPARATIVE INTELLIGENCE BRIEF · DEMO WORKSPACE</div><h2 id="report-title">A comparative view of three technology companies</h2><div class="report-sub" id="report-sub">Illustrative sample report · Metrics below are not current company disclosures</div></div><div class="report-actions"><button class="outline-btn" onclick="window.print()">↓ Export PDF</button><button class="outline-btn" onclick="toast('Saved comparisons require an account backend. This preview does not store reports.')">＋ Save report</button></div></div>
+<div class="report-head"><div><div class="report-overline">COMPARATIVE INTELLIGENCE BRIEF · EVIDENCE-LED REPORT</div><h2 id="report-title">Your company comparison</h2><div class="report-sub" id="report-sub">Select companies and generate a report to retrieve reported financial facts and source references</div></div><div class="report-actions"><button class="outline-btn" onclick="window.print()">↓ Export PDF</button><button class="outline-btn" onclick="toast('Saved comparisons require an account backend. This preview does not store reports.')">＋ Save report</button></div></div>
 <div class="tabs" role="tablist" aria-label="Report sections">
 <button class="tab active" data-tab="overview">Executive brief</button><button class="tab" data-tab="profiles">Company profiles</button><button class="tab" data-tab="financials">Financials</button><button class="tab" data-tab="position">Competitive position</button><button class="tab" data-tab="swot">SWOT analysis</button><button class="tab" data-tab="innovation">Innovation & risk</button><button class="tab" data-tab="analyst">AI analyst</button><button class="tab" data-tab="sources">Sources & method</button>
 </div>
 <section class="tab-panel active" id="tab-overview">
 <div class="grid overview-grid" id="overview-cards"></div>
 <div class="grid lower-grid">
-<div class="panel"><div class="panel-kicker">Illustrative comparison</div><h3>Revenue scale · sample values</h3><div id="revenue-chart"></div><div class="legend"><span><i></i>Sample revenue</span><span><i class="alt"></i>Sample operating income</span></div></div>
+<div class="panel"><div class="panel-kicker">Reported financial data</div><h3>Revenue and operating income · USD billions</h3><div id="revenue-chart"><div class="empty-state">Generate a comparison to retrieve reported figures.</div></div><div class="legend"><span><i></i>Revenue</span><span><i class="alt"></i>Operating income</span></div></div>
 <div class="panel"><div class="panel-kicker">At a glance</div><h3>What stands out</h3><div class="brief-copy" id="executive-insight"></div></div>
 </div>
-<div class="panel table-panel"><div class="panel-title-row"><div><div class="panel-kicker">Side-by-side metrics</div><h3>Company snapshot</h3></div><span class="demo-tag">◉ ILLUSTRATIVE DATA</span></div><div class="table-scroll" id="snapshot-table"></div></div>
+<div class="panel table-panel"><div class="panel-title-row"><div><div class="panel-kicker">Side-by-side metrics</div><h3>Company snapshot</h3></div><span class="source-status" id="snapshot-status">AWAITING SOURCE DATA</span></div><div class="table-scroll" id="snapshot-table"></div></div>
 <div class="feedback-row">Was this report structure useful? <button onclick="feedback('yes')">Yes, useful</button><button onclick="feedback('no')">Needs improvement</button><span id="feedback-status"></span></div>
 </section>
 <section class="tab-panel" id="tab-profiles"><div class="company-cards" id="profile-cards"></div></section>
 <section class="tab-panel" id="tab-financials">
 <div class="grid overview-grid" id="financial-kpis"></div>
-<div class="panel table-panel"><div class="panel-title-row"><div><div class="panel-kicker">Reported financial categories · preview</div><h3>Financial comparison</h3></div><span class="demo-tag">ILLUSTRATIVE ONLY</span></div><div class="table-scroll" id="financial-table"></div></div>
+<div class="panel table-panel"><div class="panel-title-row"><div><div class="panel-kicker">Reported financial categories · preview</div><h3>Financial comparison</h3></div><span class="source-status" id="financial-status">AWAITING SOURCE DATA</span></div><div class="table-scroll" id="financial-table"></div></div>
 <div class="grid lower-grid"><div class="panel"><div class="panel-kicker">Relative scale</div><h3>Revenue comparison</h3><div id="financial-chart"></div></div><div class="panel"><div class="panel-kicker">How to read this</div><h3>Period and currency discipline</h3><p class="brief-copy">A production report will normalise currency, identify each issuer's fiscal year-end and flag non-aligned reporting periods. Currency conversion and fiscal-period alignment must be explicit; this preview does not imply that any values are verified.</p></div></div>
 </section>
 <section class="tab-panel" id="tab-position"><div class="panel"><div class="panel-kicker">Strategic comparison</div><h3>Competitive position matrix</h3><div class="table-scroll" id="position-table"></div></div><div class="grid lower-grid"><div class="panel"><div class="panel-kicker">Relative strengths</div><h3>Positioning dimensions</h3><div id="position-ranks" class="rank-list"></div></div><div class="panel"><div class="panel-kicker">Analyst perspective</div><h3>Where the comparison gets interesting</h3><p class="brief-copy">Companies can operate in overlapping technology markets while competing in very different segments. A rigorous comparison should distinguish scale, margins, product mix, customer concentration, capital intensity and exposure to industry cycles.</p></div></div></section>
@@ -83,7 +83,7 @@
 </div>
 <div class="panel table-panel"><div class="panel-kicker">Evidence protocol</div><h3>What every important metric must carry</h3><div class="table-scroll"><table><thead><tr><th>Field</th><th>Purpose</th></tr></thead><tbody><tr><td>Metric value and unit</td><td>Preserve the reported value and scale</td></tr><tr><td>Fiscal period</td><td>Identify year/quarter and period end</td></tr><tr><td>Currency</td><td>Prevent misleading cross-currency comparisons</td></tr><tr><td>Source document and URL</td><td>Allow readers to inspect original evidence</td></tr><tr><td>Published / retrieved dates</td><td>Make freshness and provenance visible</td></tr><tr><td>Evidence status</td><td>Reported, derived, estimated, unavailable or demo</td></tr></tbody></table></div></div>
 </section>
-<div class="disclosure"><span>COMPANYLENS · INDEPENDENT PRODUCT PREVIEW</span><span>All visible sample metrics are illustrative placeholders. Not investment advice. Not a live research service.</span></div>
+<div class="disclosure"><span>COMPANYLENS · INDEPENDENT PRODUCT PREVIEW</span><span>Reported figures are attributed to their filings. Derived metrics and analyst interpretation are identified separately. Not investment advice.</span></div>
 </main>
 <footer class="footer"><strong>CompanyLens</strong><span>See the companies behind the numbers.</span><span>Research, made clearer.</span></footer>
 <div class="toast" id="toast" role="status"></div>
@@ -162,7 +162,7 @@ function generateLiveComparison(){
   renderLiveComparison();
  }).catch(err=>{
   toast(err.message);
-  $('#report-sub').textContent='Live comparison could not be completed. Existing preview remains illustrative.';
+  $('#report-sub').textContent='Live retrieval failed. No estimated or placeholder financial values are displayed.';
  }).finally(()=>{if(button){button.disabled=false;button.textContent='Generate comparison →'}});
 }
 function renderLiveComparison(){
@@ -172,7 +172,7 @@ function renderLiveComparison(){
  const periodRange=[...new Set(periods)].length>1;
  const warning=periodRange?'Fiscal-period warning: these companies have different fiscal year-end dates. Values below are each issuer’s latest annual observations, not a same-calendar-period comparison.':'Revenue period end dates match; verify each filing and metric definition before interpreting.';
  $('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — live SEC comparison';
- $('#report-sub').textContent='SEC-reported annual facts · retrieved '+new Date().toLocaleString()+' · USD where reported';
+ $('#report-sub').textContent='Reported annual SEC XBRL facts · retrieved '+new Date().toLocaleString()+' · reporting periods shown for each issuer';
  const rows=labelKeys.map(([key,label])=>[label,...entries.map(({data})=>moneyBillions(metricValue(data,key)))]);
  rows.push(['Revenue period end',...entries.map(({data})=>data.metrics.revenue?.fiscalPeriodEnd||'Not available')]);
  rows.push(['Revenue filing date',...entries.map(({data})=>data.metrics.revenue?.filedAt||'Not available')]);
@@ -210,7 +210,7 @@ function renderLiveComparison(){
   liveBox.append(list);
   sourcesPanel.prepend(liveBox);
  }
- const tag=document.querySelector('#tab-financials .demo-tag');if(tag){tag.className='source-status';tag.textContent='LIVE SEC XBRL · REPORTED VALUES'}
+ const tag=$('#financial-status');if(tag){tag.className='source-status';tag.textContent='SEC XBRL · REPORTED VALUES'} const snap=$('#snapshot-status');if(snap){snap.className='source-status';snap.textContent='SEC XBRL · REPORTED VALUES'}
 }
 function renderSelector(){
  const row=$('#company-row');row.innerHTML='';
@@ -224,25 +224,22 @@ function renderOptions(q){const box=$('#company-options');if(!box)return;box.inn
 function table(headers,rows){return '<table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map((v,i)=>'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
 function chart(){const vals=selected.map(id=>company(id));return '<div class="chart-bars">'+vals.map(c=>'<div class="bar-group"><div class="bar-pair"><div class="bar" style="height:'+c.sample.revenue/1.3+'px"></div><div class="bar alt" style="height:'+c.sample.operating/1.3+'px"></div></div><span class="bar-label">'+c.ticker+'</span></div>').join('')+'</div>'}
 function renderReport(){
- const vals=selected.map(company);$('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — comparative intelligence';$('#report-sub').textContent='Illustrative sample report · '+vals.length+' companies · Values are not current financial disclosures';
- const max=vals.reduce((a,b)=>a.sample.revenue>b.sample.revenue?a:b);
- $('#overview-cards').innerHTML='<div class="panel"><div class="panel-kicker">Largest sample revenue</div><h3>'+max.name+'</h3><div class="big-number">'+fmt(max.sample.revenue)+'</div><div class="metric-sub">Illustrative placeholder · not a reported figure</div><div class="metric-compare">'+vals.map(c=>'<div><strong>'+fmt(c.sample.revenue)+'</strong><small>'+c.ticker+'</small></div>').join('')+'</div></div><div class="panel"><div class="panel-kicker">Highest sample growth</div><h3>'+vals.reduce((a,b)=>a.sample.growth>b.sample.growth?a:b).name+'</h3><div class="big-number">'+Math.max(...vals.map(c=>c.sample.growth))+'%</div><div class="metric-sub">Illustrative growth assumption · not verified</div></div><div class="panel insight-panel"><div class="panel-kicker">Analyst note · demonstration</div><h3>Scale is only one part of the story.</h3><p>Revenue, operating margin, capital intensity and business mix should be read together. The largest company is not automatically the strongest on every dimension.</p><a class="insight-link" href="#analyst" onclick="switchTab(&quot;analyst&quot;)">Explore with the analyst ↗</a></div>';
- $('#revenue-chart').innerHTML=chart();$('#financial-chart').innerHTML=chart();
- $('#executive-insight').innerHTML='<p><strong>'+max.name+'</strong> has the largest illustrative revenue value in this sample. That alone does not establish superior profitability, resilience or future prospects.</p><p>Compare operating margin, cash generation, segment mix and growth quality before drawing conclusions. The figures shown here are placeholders for demonstrating the comparison experience.</p>';
- $('#snapshot-table').innerHTML=table(['Metric',...vals.map(c=>c.ticker)],[
- ['Illustrative revenue',...vals.map(c=>fmt(c.sample.revenue))],['Illustrative operating income',...vals.map(c=>fmt(c.sample.operating))],['Illustrative employee count',...vals.map(c=>(c.sample.employees*10).toFixed(0)+'k')],['Illustrative revenue growth',...vals.map(c=>c.sample.growth+'%')],['Illustrative R&D intensity',...vals.map(c=>c.sample.rd+'%')],['Headquarters',...vals.map(c=>c.hq)]
- ]);
- $('#profile-cards').innerHTML=vals.map(c=>'<article class="company-card"><div class="company-card-head"><span class="company-symbol">'+c.initials+'</span><div><h3>'+c.name+'</h3><small>'+c.ticker+' · '+c.exchange+'</small></div></div><p><b>'+c.sector+'</b></p><p>'+c.products+'</p><p><b>Headquarters:</b> '+c.hq+'<br><b>Founded:</b> '+c.founded+'</p><span class="demo-tag">PROFILE PREVIEW</span></article>').join('');
- $('#financial-kpis').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · illustrative</div><h3>'+c.name+'</h3><div class="big-number">'+fmt(c.sample.revenue)+'</div><div class="metric-sub">Sample revenue placeholder</div><div class="metric-compare"><div><strong>'+fmt(c.sample.operating)+'</strong><small>Operating income</small></div><div><strong>'+c.sample.growth+'%</strong><small>Growth assumption</small></div></div></div>').join('');
- $('#financial-table').innerHTML=table(['Metric',...vals.map(c=>c.name)],[
- ['Revenue',...vals.map(c=>fmt(c.sample.revenue))],['Operating income',...vals.map(c=>fmt(c.sample.operating))],['Operating margin',...vals.map(c=>Math.round(c.sample.operating/c.sample.revenue*100)+'%')],['Revenue growth',...vals.map(c=>c.sample.growth+'%')],['R&D / revenue',...vals.map(c=>c.sample.rd+'%')],['Reporting period','Not connected','Not connected','Not connected'].slice(0,vals.length+1)
- ]);
- $('#position-table').innerHTML=table(['Dimension',...vals.map(c=>c.name)],[
- ['Primary arena',...vals.map(c=>c.sector)],['Illustrative strategic lens',...vals.map(c=>c.products.split(',')[0])],['Evidence needed',...vals.map(()=> 'Segment notes, risk factors, market disclosures')]
- ]);
- $('#position-ranks').innerHTML=vals.map(c=>'<div class="rank-row"><span>'+c.ticker+'</span><div class="rank-track"><div class="rank-fill" style="width:'+Math.min(95,c.sample.growth*2.5)+'%"></div></div><strong>'+c.sample.growth+'%</strong></div>').join('');
- $('#swot-cards').innerHTML=vals.map(c=>'<article class="company-card"><div class="company-card-head"><span class="company-symbol">'+c.initials+'</span><div><h3>'+c.name+'</h3><small>'+c.ticker+' · illustrative SWOT prompts</small></div></div><div class="swot-grid"><div class="swot-cell strength"><h4>Strengths</h4><p>'+c.strength+'</p></div><div class="swot-cell weak"><h4>Weaknesses</h4><p>'+c.weak+'</p></div><div class="swot-cell opp"><h4>Opportunities</h4><p>'+c.opportunity+'</p></div><div class="swot-cell threat"><h4>Threats</h4><p>'+c.threat+'</p></div></div></article>').join('');
- $('#innovation-cards').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · research checklist</div><h3>'+c.name+'</h3><p class="brief-copy">Review disclosed R&D expenditure, product launches, capital expenditure, patent activity and management commentary. This preview does not assert company-specific innovation rankings.</p><span class="demo-tag">EVIDENCE REQUIRED</span></div>').join('');
+ const vals=selected.map(company);
+ $('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — comparative intelligence';
+ $('#report-sub').textContent='Generate a comparison to retrieve the latest available reported financial facts and source references.';
+ $('#overview-cards').innerHTML='<div class="panel"><div class="panel-kicker">Financial evidence</div><h3>Awaiting reported figures</h3><p class="brief-copy">No financial values are shown until they have been retrieved from a regulatory filing or another identified source.</p></div><div class="panel"><div class="panel-kicker">Selected companies</div><h3>'+vals.length+' issuers selected</h3><p class="brief-copy">'+vals.map(c=>c.name+' ('+c.ticker+')').join(' · ')+'</p></div><div class="panel insight-panel"><div class="panel-kicker">Evidence standard</div><h3>Source first. Analysis second.</h3><p>Reported facts, calculated metrics and analyst interpretation will be distinguished in the report. Missing values will remain unavailable rather than being estimated.</p></div>';
+ $('#revenue-chart').innerHTML='<div class="empty-state">Generate a comparison to retrieve reported revenue and operating income.</div>';
+ $('#financial-chart').innerHTML='<div class="empty-state">Financial chart will appear when source data is available.</div>';
+ $('#executive-insight').innerHTML='<p>Company-specific conclusions will appear only when supporting disclosures have been retrieved and reviewed.</p>';
+ const headers=['Metric',...vals.map(c=>c.ticker)];
+ const blankRows=[['Revenue',...vals.map(()=> 'Not yet retrieved')],['Operating income',...vals.map(()=> 'Not yet retrieved')],['Net income',...vals.map(()=> 'Not yet retrieved')],['Total assets',...vals.map(()=> 'Not yet retrieved')],['Operating cash flow',...vals.map(()=> 'Not yet retrieved')]];
+ $('#snapshot-table').innerHTML=table(headers,blankRows);
+ $('#financial-kpis').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · financial evidence</div><h3>'+c.name+'</h3><div class="big-number">—</div><div class="metric-sub">Reported revenue will appear after source retrieval</div></div>').join('');
+ $('#financial-table').innerHTML=table(['Metric',...vals.map(c=>c.name)],blankRows);
+ $('#position-table').innerHTML=table(['Dimension',...vals.map(c=>c.name)],[['Primary business',...vals.map(c=>c.sector)],['Competitive assessment',...vals.map(()=> 'Requires sourced segment and market evidence')],['Evidence status',...vals.map(()=> 'Not yet assessed')]]);
+ $('#position-ranks').innerHTML='<div class="empty-state">No company rankings are shown without comparable reported evidence.</div>';
+ $('#swot-cards').innerHTML='<div class="empty-state">A sourced SWOT assessment will be generated after company filings and relevant market evidence are available. No generic strengths, weaknesses, opportunities or threats are presented as company facts.</div>';
+ $('#innovation-cards').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · innovation evidence</div><h3>'+c.name+'</h3><p class="brief-copy">Innovation and R&D analysis will be based on disclosed R&D expenditure, product announcements and management commentary. No company-specific conclusion is asserted before those sources are retrieved.</p><span class="source-status">AWAITING SOURCE REVIEW</span></div>').join('');
 }
 function switchTab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
