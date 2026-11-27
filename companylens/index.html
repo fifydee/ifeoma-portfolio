@@ -144,59 +144,7 @@ let liveFactsById={};
 function moneyBillions(v){
  if(!v)return '—';
  if(v.unit!=='USD')return Number(v.value).toLocaleString()+' '+v.unit;
- return '
- const row=$('#company-row');row.innerHTML='';
- selected.forEach(id=>{const c=company(id);if(!c)return;const chip=document.createElement('div');chip.className='company-chip';chip.innerHTML='<span class="company-symbol">'+c.initials+'</span><span><strong>'+c.name+'</strong><small>'+c.ticker+' · '+c.exchange+'</small></span><button class="remove" aria-label="Remove '+c.name+'" data-remove="'+id+'">×</button>';row.append(chip)});
- if(selected.length<5){const wrap=document.createElement('div');wrap.className='selector-wrap';wrap.innerHTML='<button class="add-company" id="add-company">＋ Add company</button><div class="company-menu" id="company-menu"><input id="company-search" placeholder="Search listed companies…"><div class="company-options" id="company-options"></div></div>';row.append(wrap)}
- const run=document.createElement('button');run.className='run-btn';run.textContent='Generate comparison →';run.onclick=()=>{generateLiveComparison();$('#report').scrollIntoView({behavior:'smooth'})};row.append(run);
- row.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(selected.length<=2){toast('Choose at least two companies.');return}selected=selected.filter(x=>x!==b.dataset.remove);renderSelector();renderReport()});
- const add=$('#add-company');if(add){add.onclick=()=>{$('#company-menu').classList.toggle('open');$('#company-search').focus();renderOptions('')}};const search=$('#company-search');if(search)search.oninput=e=>renderOptions(e.target.value);
-}
-function renderOptions(q){const box=$('#company-options');if(!box)return;box.innerHTML='';companies.filter(c=>!selected.includes(c.id)&&(c.name.toLowerCase().includes(q.toLowerCase())||c.ticker.toLowerCase().includes(q.toLowerCase()))).forEach(c=>{const b=document.createElement('button');b.className='company-option';b.innerHTML=c.name+'<small>'+c.ticker+' · '+c.exchange+' · '+c.sector+'</small>';b.onclick=()=>{selected.push(c.id);renderSelector();renderReport()};box.append(b)});if(!box.children.length)box.innerHTML='<div class="empty-state">No matching company in this preview registry.</div>'}
-function table(headers,rows){return '<table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map((v,i)=>'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
-function chart(){const vals=selected.map(id=>company(id));return '<div class="chart-bars">'+vals.map(c=>'<div class="bar-group"><div class="bar-pair"><div class="bar" style="height:'+c.sample.revenue/1.3+'px"></div><div class="bar alt" style="height:'+c.sample.operating/1.3+'px"></div></div><span class="bar-label">'+c.ticker+'</span></div>').join('')+'</div>'}
-function renderReport(){
- const vals=selected.map(company);$('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — comparative intelligence';$('#report-sub').textContent='Illustrative sample report · '+vals.length+' companies · Values are not current financial disclosures';
- const max=vals.reduce((a,b)=>a.sample.revenue>b.sample.revenue?a:b);
- $('#overview-cards').innerHTML='<div class="panel"><div class="panel-kicker">Largest sample revenue</div><h3>'+max.name+'</h3><div class="big-number">'+fmt(max.sample.revenue)+'</div><div class="metric-sub">Illustrative placeholder · not a reported figure</div><div class="metric-compare">'+vals.map(c=>'<div><strong>'+fmt(c.sample.revenue)+'</strong><small>'+c.ticker+'</small></div>').join('')+'</div></div><div class="panel"><div class="panel-kicker">Highest sample growth</div><h3>'+vals.reduce((a,b)=>a.sample.growth>b.sample.growth?a:b).name+'</h3><div class="big-number">'+Math.max(...vals.map(c=>c.sample.growth))+'%</div><div class="metric-sub">Illustrative growth assumption · not verified</div></div><div class="panel insight-panel"><div class="panel-kicker">Analyst note · demonstration</div><h3>Scale is only one part of the story.</h3><p>Revenue, operating margin, capital intensity and business mix should be read together. The largest company is not automatically the strongest on every dimension.</p><a class="insight-link" href="#analyst" onclick="switchTab(&quot;analyst&quot;)">Explore with the analyst ↗</a></div>';
- $('#revenue-chart').innerHTML=chart();$('#financial-chart').innerHTML=chart();
- $('#executive-insight').innerHTML='<p><strong>'+max.name+'</strong> has the largest illustrative revenue value in this sample. That alone does not establish superior profitability, resilience or future prospects.</p><p>Compare operating margin, cash generation, segment mix and growth quality before drawing conclusions. The figures shown here are placeholders for demonstrating the comparison experience.</p>';
- $('#snapshot-table').innerHTML=table(['Metric',...vals.map(c=>c.ticker)],[
- ['Illustrative revenue',...vals.map(c=>fmt(c.sample.revenue))],['Illustrative operating income',...vals.map(c=>fmt(c.sample.operating))],['Illustrative employee count',...vals.map(c=>(c.sample.employees*10).toFixed(0)+'k')],['Illustrative revenue growth',...vals.map(c=>c.sample.growth+'%')],['Illustrative R&D intensity',...vals.map(c=>c.sample.rd+'%')],['Headquarters',...vals.map(c=>c.hq)]
- ]);
- $('#profile-cards').innerHTML=vals.map(c=>'<article class="company-card"><div class="company-card-head"><span class="company-symbol">'+c.initials+'</span><div><h3>'+c.name+'</h3><small>'+c.ticker+' · '+c.exchange+'</small></div></div><p><b>'+c.sector+'</b></p><p>'+c.products+'</p><p><b>Headquarters:</b> '+c.hq+'<br><b>Founded:</b> '+c.founded+'</p><span class="demo-tag">PROFILE PREVIEW</span></article>').join('');
- $('#financial-kpis').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · illustrative</div><h3>'+c.name+'</h3><div class="big-number">'+fmt(c.sample.revenue)+'</div><div class="metric-sub">Sample revenue placeholder</div><div class="metric-compare"><div><strong>'+fmt(c.sample.operating)+'</strong><small>Operating income</small></div><div><strong>'+c.sample.growth+'%</strong><small>Growth assumption</small></div></div></div>').join('');
- $('#financial-table').innerHTML=table(['Metric',...vals.map(c=>c.name)],[
- ['Revenue',...vals.map(c=>fmt(c.sample.revenue))],['Operating income',...vals.map(c=>fmt(c.sample.operating))],['Operating margin',...vals.map(c=>Math.round(c.sample.operating/c.sample.revenue*100)+'%')],['Revenue growth',...vals.map(c=>c.sample.growth+'%')],['R&D / revenue',...vals.map(c=>c.sample.rd+'%')],['Reporting period','Not connected','Not connected','Not connected'].slice(0,vals.length+1)
- ]);
- $('#position-table').innerHTML=table(['Dimension',...vals.map(c=>c.name)],[
- ['Primary arena',...vals.map(c=>c.sector)],['Illustrative strategic lens',...vals.map(c=>c.products.split(',')[0])],['Evidence needed',...vals.map(()=> 'Segment notes, risk factors, market disclosures')]
- ]);
- $('#position-ranks').innerHTML=vals.map(c=>'<div class="rank-row"><span>'+c.ticker+'</span><div class="rank-track"><div class="rank-fill" style="width:'+Math.min(95,c.sample.growth*2.5)+'%"></div></div><strong>'+c.sample.growth+'%</strong></div>').join('');
- $('#swot-cards').innerHTML=vals.map(c=>'<article class="company-card"><div class="company-card-head"><span class="company-symbol">'+c.initials+'</span><div><h3>'+c.name+'</h3><small>'+c.ticker+' · illustrative SWOT prompts</small></div></div><div class="swot-grid"><div class="swot-cell strength"><h4>Strengths</h4><p>'+c.strength+'</p></div><div class="swot-cell weak"><h4>Weaknesses</h4><p>'+c.weak+'</p></div><div class="swot-cell opp"><h4>Opportunities</h4><p>'+c.opportunity+'</p></div><div class="swot-cell threat"><h4>Threats</h4><p>'+c.threat+'</p></div></div></article>').join('');
- $('#innovation-cards').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · research checklist</div><h3>'+c.name+'</h3><p class="brief-copy">Review disclosed R&D expenditure, product launches, capital expenditure, patent activity and management commentary. This preview does not assert company-specific innovation rankings.</p><span class="demo-tag">EVIDENCE REQUIRED</span></div>').join('');
-}
-function switchTab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));}
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3600)}
-function feedback(v){$('#feedback-status').textContent=v==='yes'?'Thanks — feedback noted in this session.':'Thanks — improvement feedback noted in this session.';toast('Feedback is only held in this browser session; it has not been submitted.')}
-function addMessage(text,who){const m=document.createElement('div');m.className='message '+who;m.textContent=text;if(who==='assistant'){const s=document.createElement('small');s.textContent='LOCAL DEMO RESPONSE · NOT LIVE AI';m.append(s)}$('#chat-messages').append(m);$('#chat-messages').scrollTop=$('#chat-messages').scrollHeight}
-function analystAnswer(q){
- const lower=q.toLowerCase(), vals=selected.map(company);
- if(lower.includes('filing')||lower.includes('source')||lower.includes('verify'))return 'To verify a real comparison, start with each issuer’s latest annual report (10-K for US domestic issuers), latest quarterly filing where available, earnings release and investor-relations presentation. Then align fiscal year-end, currency, units and segment definitions. For US issuers, SEC EDGAR is a primary filing source. For other markets, use the relevant exchange or national regulator. This preview has not retrieved those filings, so I cannot attach verified citations yet.';
- if(lower.includes('revenue')&&lower.includes('mislead'))return 'Revenue measures scale, not necessarily quality. Two companies can have different gross margins, operating margins, capital requirements, cash conversion, business mixes and growth rates. A hardware-heavy business may generate high revenue with thinner margins, while software or platform revenue may have a different cost structure. Compare operating income, free cash flow, segment mix and capital intensity alongside revenue. No conclusion about the selected issuers should be drawn from this illustrative dataset.';
- if(lower.includes('difference')||lower.includes('compare'))return 'The most useful comparison separates business model from company size. Review each company’s main revenue engines, operating margin, growth, customer concentration, capital intensity and competitive dependencies. The sample metrics shown here are illustrative placeholders, not actual issuer data, so I cannot responsibly rank these companies. In a connected report, I would cite the relevant filing and period for every metric before drawing a conclusion.';
- if(lower.includes('employee')||lower.includes('workforce'))return 'Employee counts are usually point-in-time disclosures and may use different definitions (full-time employees, total workforce, contractors or continuing operations). Compare the reporting date and definition in each annual report. A headcount difference alone does not establish productivity; revenue per employee can be a useful derived metric only when periods and workforce definitions align.';
- if(lower.includes('strong')||lower.includes('best')||lower.includes('winner'))return 'There is no single defensible “strongest” company without defining the dimension and time horizon. Financial strength, growth, innovation, competitive position and resilience can point in different directions. I would compare profitability, operating cash flow, balance-sheet leverage, segment trends and disclosed risks. The current values are illustrative, so this preview cannot name a factual winner.';
- return 'A careful analyst would answer that by checking the latest annual and quarterly filings, segment disclosures, management commentary and risk factors for each selected issuer. The comparison should identify the same reporting periods, comparable definitions and source documents. This preview has no live filing retrieval or connected AI model, so I can explain the analysis framework but cannot verify a company-specific conclusion yet. Try asking about revenue interpretation, workforce definitions or which filings to inspect.';
-}
-function askSuggestion(q){$('#chat-input').value=q;$('#chat-form').requestSubmit()}
-$('#chat-form').addEventListener('submit',e=>{e.preventDefault();const input=$('#chat-input'),q=input.value.trim();if(!q)return;addMessage(q,'user');input.value='';setTimeout(()=>addMessage(analystAnswer(q),'assistant'),180)});
-$('#sec-search-button').addEventListener('click',searchSecDirectory);
-$('#sec-search-input').addEventListener('keydown',e=>{if(e.key==='Enter')searchSecDirectory()});
-renderSelector();renderReport();
-</script>
-</body></html>+(Number(v.value)/1e9).toLocaleString(undefined,{maximumFractionDigits:2})+'B';
+ return '$'+(Number(v.value)/1e9).toLocaleString(undefined,{maximumFractionDigits:2})+'B';
 }
 function metricValue(data,key){return data&&data.metrics&&data.metrics[key]||null}
 function generateLiveComparison(){
@@ -222,11 +170,9 @@ function renderLiveComparison(){
  const labelKeys=[['revenue','Revenue'],['operatingIncome','Operating income'],['netIncome','Net income'],['assets','Total assets'],['operatingCashFlow','Operating cash flow'],['researchAndDevelopment','R&D expenditure'],['capitalExpenditure','Capital expenditure']];
  const periods=entries.map(x=>x.data.metrics.revenue?.fiscalPeriodEnd||'Period unavailable');
  const periodRange=[...new Set(periods)].length>1;
- const sourceLinks=entries.map(({company:c,data})=>'<a href="'+data.source.url+'" target="_blank" rel="noopener noreferrer">'+c.ticker+' SEC Company Facts</a>').join(' · ');
- const fiscalLabels=entries.map(({company:c,data})=>c.ticker+': '+(data.metrics.revenue?.fiscalPeriodEnd||'period unavailable')+' · FY'+(data.metrics.revenue?.fiscalYear||'—'));
+ const warning=periodRange?'Fiscal-period warning: these companies have different fiscal year-end dates. Values below are each issuer’s latest annual observations, not a same-calendar-period comparison.':'Revenue period end dates match; verify each filing and metric definition before interpreting.';
  $('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — live SEC comparison';
  $('#report-sub').textContent='SEC-reported annual facts · retrieved '+new Date().toLocaleString()+' · USD where reported';
- const warning=periodRange?'Fiscal-period warning: these companies have different fiscal year-end dates. Values below are each issuer’s latest annual observations, not a same-calendar-period comparison.':'Reporting periods align by end date; verify each filing and metric definition before interpreting.';
  const rows=labelKeys.map(([key,label])=>[label,...entries.map(({data})=>moneyBillions(metricValue(data,key)))]);
  rows.push(['Revenue period end',...entries.map(({data})=>data.metrics.revenue?.fiscalPeriodEnd||'Not available')]);
  rows.push(['Revenue filing date',...entries.map(({data})=>data.metrics.revenue?.filedAt||'Not available')]);
@@ -245,14 +191,13 @@ function renderLiveComparison(){
  });
  const max=Math.max(1,...chartRows.map(x=>x.revenue||0));
  const bars='<div class="chart-bars">'+chartRows.map(x=>'<div class="bar-group"><div class="bar-pair"><div class="bar" style="height:'+Math.max(3,(x.revenue||0)/max*120)+'px"></div><div class="bar alt" style="height:'+Math.max(3,(x.operating||0)/max*120)+'px"></div></div><span class="bar-label">'+x.ticker+'</span></div>').join('')+'</div>';
- $('#financial-chart').innerHTML=bars;
- $('#revenue-chart').innerHTML=bars;
+ $('#financial-chart').innerHTML=bars;$('#revenue-chart').innerHTML=bars;
  $('#snapshot-table').innerHTML=table(['Metric',...vals.map(c=>c.ticker)],rows.slice(0,7));
  $('#overview-cards').innerHTML='<div class="panel"><div class="panel-kicker">Live SEC data · revenue</div><h3>Latest reported annual revenue</h3><div class="metric-compare">'+entries.map(({company:c,data})=>'<div><strong>'+moneyBillions(metricValue(data,'revenue'))+'</strong><small>'+c.ticker+' · '+(data.metrics.revenue?.fiscalPeriodEnd||'—')+'</small></div>').join('')+'</div></div><div class="panel"><div class="panel-kicker">Evidence coverage</div><h3>SEC company facts retrieved</h3><div class="big-number">'+entries.length+'/'+entries.length+'</div><div class="metric-sub">All selected issuers returned a response</div></div><div class="panel insight-panel"><div class="panel-kicker">Analyst caution</div><h3>Compare periods before ranking.</h3><p>'+warning+'</p><a class="insight-link" href="#sources" onclick="switchTab(&quot;sources&quot;)">Review source methodology ↗</a></div>';
  $('#executive-insight').innerHTML='<p><strong>Live evidence retrieved.</strong> Revenue, operating income, net income and other available standard XBRL concepts are drawn from SEC company facts. Values are shown in billions where reported in USD.</p><p>'+warning+' This is a financial-data comparison, not a complete assessment of competitive strength.</p>';
  const sourcesPanel=$('#tab-sources');
  if(sourcesPanel){
-  const liveBox=secEl('div','panel table-panel');
+  const liveBox=secEl('div','panel table-panel live-source-records');
   liveBox.append(secEl('div','panel-kicker','LIVE SOURCE RECORDS'),secEl('h3','','SEC EDGAR source and filing metadata'),secEl('p','brief-copy',warning));
   const list=secEl('div','source-list');
   entries.forEach(({company:c,data})=>{
@@ -263,7 +208,7 @@ function renderLiveComparison(){
   });
   liveBox.append(list);
   const existing=sourcesPanel.querySelector('.live-source-records');if(existing)existing.remove();
-  liveBox.classList.add('live-source-records');sourcesPanel.prepend(liveBox);
+  sourcesPanel.prepend(liveBox);
  }
  const tag=document.querySelector('#tab-financials .demo-tag');if(tag){tag.className='source-status';tag.textContent='LIVE SEC XBRL · REPORTED VALUES'}
 }
