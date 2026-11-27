@@ -23,7 +23,7 @@
 <div class="top-actions"><button class="quiet-btn" onclick="window.print()">Export report ↗</button><button class="top-btn" onclick="document.getElementById('compare-workspace').scrollIntoView({behavior:'smooth'})">New comparison</button></div>
 </header>
 <section class="hero">
-<div class="hero-kicker">PUBLIC COMPANY INTELLIGENCE · RESEARCH PREVIEW</div>
+<div class="hero-kicker">PUBLIC COMPANY INTELLIGENCE · LIVE SEC FINANCIAL DATA</div>
 <h1>See the companies<br><em>behind the numbers.</em></h1>
 <p class="hero-copy">Compare public companies, understand their performance and explore the evidence behind their competitive position. From financial disclosures to strategic context — made clearer.</p>
 <div class="hero-foot"><span>PUBLICLY LISTED COMPANIES</span><i></i><span>GLOBAL AMBITION · EXCHANGE-AWARE</span><i></i><span>BUILT FOR BETTER QUESTIONS</span></div>
@@ -34,7 +34,7 @@
 <div class="workspace-note"><b>Coverage principle:</b> CompanyLens is designed for publicly listed issuers with accessible regulatory or exchange disclosures. Figures appear only after retrieval from a cited filing or regulatory source.</div>
 </section>
 <main class="wrap content" id="report">
-<div class="report-head"><div><div class="report-overline">COMPARATIVE INTELLIGENCE BRIEF · EVIDENCE-LED REPORT</div><h2 id="report-title">Your company comparison</h2><div class="report-sub" id="report-sub">Select companies and generate a report to retrieve reported financial facts and source references</div></div><div class="report-actions"><button class="outline-btn" onclick="window.print()">↓ Export PDF</button><button class="outline-btn" onclick="toast('Saved comparisons require an account backend. This preview does not store reports.')">＋ Save report</button></div></div>
+<div class="report-head"><div><div class="report-overline">COMPARATIVE INTELLIGENCE BRIEF · EVIDENCE-LED REPORT</div><h2 id="report-title">Your company comparison</h2><div class="report-sub" id="report-sub">Select companies and generate a report to retrieve reported financial facts and source references</div></div><div class="report-actions"><button class="outline-btn" onclick="window.print()">↓ Export PDF</button><button class="outline-btn" onclick="toast('Report saving is not available yet. Use Export PDF to keep a copy of this report.')">＋ Save report</button></div></div>
 <div class="tabs" role="tablist" aria-label="Report sections">
 <button class="tab active" data-tab="overview">Executive brief</button><button class="tab" data-tab="profiles">Company profiles</button><button class="tab" data-tab="financials">Financials</button><button class="tab" data-tab="position">Competitive position</button><button class="tab" data-tab="swot">SWOT analysis</button><button class="tab" data-tab="innovation">Innovation & risk</button><button class="tab" data-tab="analyst">AI analyst</button><button class="tab" data-tab="sources">Sources & method</button>
 </div>
@@ -50,8 +50,8 @@
 <section class="tab-panel" id="tab-profiles"><div class="company-cards" id="profile-cards"></div></section>
 <section class="tab-panel" id="tab-financials">
 <div class="grid overview-grid" id="financial-kpis"></div>
-<div class="panel table-panel"><div class="panel-title-row"><div><div class="panel-kicker">Reported financial categories · preview</div><h3>Financial comparison</h3></div><span class="source-status" id="financial-status">AWAITING SOURCE DATA</span></div><div class="table-scroll" id="financial-table"></div></div>
-<div class="grid lower-grid"><div class="panel"><div class="panel-kicker">Relative scale</div><h3>Revenue comparison</h3><div id="financial-chart"></div></div><div class="panel"><div class="panel-kicker">How to read this</div><h3>Period and currency discipline</h3><p class="brief-copy">A production report will normalise currency, identify each issuer's fiscal year-end and flag non-aligned reporting periods. Currency conversion and fiscal-period alignment must be explicit; this preview does not imply that any values are verified.</p></div></div>
+<div class="panel table-panel"><div class="panel-title-row"><div><div class="panel-kicker">Reported annual financial data</div><h3>Financial comparison</h3></div><span class="source-status" id="financial-status">AWAITING SOURCE DATA</span></div><div class="table-scroll" id="financial-table"></div></div>
+<div class="grid lower-grid"><div class="panel"><div class="panel-kicker">Relative scale</div><h3>Revenue comparison</h3><div id="financial-chart"></div></div><div class="panel"><div class="panel-kicker">How to read this</div><h3>Period and currency discipline</h3><p class="brief-copy">Values remain in their reported currency and units. Fiscal periods are shown issuer by issuer; CompanyLens does not silently convert currencies or treat different year-ends as directly aligned.</p></div></div>
 </section>
 <section class="tab-panel" id="tab-position"><div class="panel"><div class="panel-kicker">Strategic comparison</div><h3>Competitive position matrix</h3><div class="table-scroll" id="position-table"></div></div><div class="grid lower-grid"><div class="panel"><div class="panel-kicker">Relative strengths</div><h3>Positioning dimensions</h3><div id="position-ranks" class="rank-list"></div></div><div class="panel"><div class="panel-kicker">Analyst perspective</div><h3>Where the comparison gets interesting</h3><p class="brief-copy">Companies can operate in overlapping technology markets while competing in very different segments. A rigorous comparison should distinguish scale, margins, product mix, customer concentration, capital intensity and exposure to industry cycles.</p></div></div></section>
 <section class="tab-panel" id="tab-swot"><div class="section-line"><span class="section-label">AI-assisted strategic assessment</span><span class="source-status">SOURCE-LED ASSESSMENT</span></div><div class="company-cards" id="swot-cards"></div><p class="brief-copy" style="margin-top:14px">SWOT conclusions will be included only when supported by company disclosures or clearly identified as analyst hypotheses. Unsupported points will be omitted.</p></section>
@@ -83,7 +83,7 @@
 </div>
 <div class="panel table-panel"><div class="panel-kicker">Evidence protocol</div><h3>What every important metric must carry</h3><div class="table-scroll"><table><thead><tr><th>Field</th><th>Purpose</th></tr></thead><tbody><tr><td>Metric value and unit</td><td>Preserve the reported value and scale</td></tr><tr><td>Fiscal period</td><td>Identify year/quarter and period end</td></tr><tr><td>Currency</td><td>Prevent misleading cross-currency comparisons</td></tr><tr><td>Source document and URL</td><td>Allow readers to inspect original evidence</td></tr><tr><td>Published / retrieved dates</td><td>Make freshness and provenance visible</td></tr><tr><td>Evidence status</td><td>Reported, derived, analyst interpretation or unavailable</td></tr></tbody></table></div></div>
 </section>
-<div class="disclosure"><span>COMPANYLENS · INDEPENDENT PRODUCT PREVIEW</span><span>Reported figures are attributed to their filings. Derived metrics and analyst interpretation are identified separately. Not investment advice.</span></div>
+<div class="disclosure"><span>COMPANYLENS · EVIDENCE-LED COMPANY RESEARCH</span><span>Reported figures are attributed to their filings. Derived metrics and analyst interpretation are identified separately. Not investment advice.</span></div>
 </main>
 <footer class="footer"><strong>CompanyLens</strong><span>See the companies behind the numbers.</span><span>Research, made clearer.</span></footer>
 <div class="toast" id="toast" role="status"></div>
@@ -173,13 +173,13 @@ function renderLiveComparison(){
  const warning=periodRange?'Fiscal-period warning: these companies have different fiscal year-end dates. Values below are each issuer’s latest annual observations, not a same-calendar-period comparison.':'Revenue period end dates match; verify each filing and metric definition before interpreting.';
  $('#report-title').textContent=vals.map(c=>c.name).join(' · ')+' — live SEC comparison';
  $('#report-sub').textContent='Reported annual SEC XBRL facts · retrieved '+new Date().toLocaleString()+' · reporting periods shown for each issuer';
- const factCell=v=>v?moneyBillions(v)+'<small style="display:block;color:#8492a5;font-size:9px;margin-top:4px">'+(v.fiscalPeriodEnd||'Period unavailable')+' · '+(v.form||'Filing type unavailable')+' · filed '+(v.filedAt||'date unavailable')+'</small>':'Not available in selected standard XBRL concepts';
+ const factCell=v=>v?moneyBillions(v)+'<small style="display:block;color:#8492a5;font-size:9px;margin-top:4px">'+(v.fiscalPeriodEnd||'Period unavailable')+' · '+(v.form||'Filing type unavailable')+' · filed '+(v.filedAt||'date unavailable')+'</small>'+(v.status==='stale'?'<small style="display:block;color:#b36a26;font-size:9px;margin-top:3px">STALE OBSERVATION · EXCLUDED FROM CURRENT-PERIOD CHARTS AND DERIVED METRICS</small>':'')+(v.filingUrl?'<small style="display:block;font-size:9px;margin-top:3px"><a href="'+v.filingUrl+'" target="_blank" rel="noopener noreferrer">Open source filing ↗</a></small>':''):'Not available in selected standard XBRL concepts';
  const rows=labelKeys.map(([key,label])=>[label,...entries.map(({data})=>factCell(metricValue(data,key)))]);
  rows.push(['Revenue period end',...entries.map(({data})=>data.metrics.revenue?.fiscalPeriodEnd||'Not available')]);
  rows.push(['Revenue filing date',...entries.map(({data})=>data.metrics.revenue?.filedAt||'Not available')]);
  rows.push(['Operating margin (derived)',...entries.map(({data})=>{
   const rev=metricValue(data,'revenue'),op=metricValue(data,'operatingIncome');
-  return rev&&op&&rev.fiscalPeriodEnd===op.fiscalPeriodEnd&&Number(rev.value)!==0?(Number(op.value)/Number(rev.value)*100).toFixed(1)+'%':'Not calculated — periods differ or data missing';
+  return rev&&op&&rev.status!=='stale'&&op.status!=='stale'&&rev.fiscalPeriodEnd===op.fiscalPeriodEnd&&Number(rev.value)!==0?(Number(op.value)/Number(rev.value)*100).toFixed(1)+'%':'Not calculated — periods differ or data missing';
  })]);
  $('#financial-table').innerHTML=table(['Reported metric',...vals.map(c=>c.name)],rows);
  $('#financial-kpis').innerHTML=entries.map(({company:c,data})=>{
@@ -188,7 +188,7 @@ function renderLiveComparison(){
  }).join('');
  const chartRows=entries.map(({company:c,data})=>{
   const rev=metricValue(data,'revenue'),op=metricValue(data,'operatingIncome');
-  return {ticker:c.ticker,revenue:rev&&rev.unit==='USD'?Number(rev.value)/1e9:null,operating:op&&op.unit==='USD'?Number(op.value)/1e9:null};
+  return {ticker:c.ticker,revenue:rev&&rev.status!=='stale'&&rev.unit==='USD'?Number(rev.value)/1e9:null,operating:op&&op.status!=='stale'&&op.unit==='USD'?Number(op.value)/1e9:null};
  });
  const max=Math.max(1,...chartRows.map(x=>x.revenue||0));
  const bars='<div class="chart-bars">'+chartRows.map(x=>'<div class="bar-group"><div class="bar-pair"><div class="bar" style="height:'+Math.max(3,(x.revenue||0)/max*120)+'px"></div><div class="bar alt" style="height:'+Math.max(3,(x.operating||0)/max*120)+'px"></div></div><span class="bar-label">'+x.ticker+'</span></div>').join('')+'</div>';
@@ -245,6 +245,7 @@ function renderReport(){
  $('#position-table').innerHTML=table(['Dimension',...vals.map(c=>c.name)],[['Primary business',...vals.map(c=>c.sector)],['Competitive assessment',...vals.map(()=> 'Requires sourced segment and market evidence')],['Evidence status',...vals.map(()=> 'Not yet assessed')]]);
  $('#position-ranks').innerHTML='<div class="empty-state">No company rankings are shown without comparable reported evidence.</div>';
  $('#swot-cards').innerHTML='<div class="empty-state">A sourced SWOT assessment will be generated after company filings and relevant market evidence are available. No generic strengths, weaknesses, opportunities or threats are presented as company facts.</div>';
+ $('#profile-cards').innerHTML='<div class="empty-state">Issuer details from SEC submissions will appear after successful source retrieval.</div>';
  $('#innovation-cards').innerHTML=vals.map(c=>'<div class="panel"><div class="panel-kicker">'+c.ticker+' · innovation evidence</div><h3>'+c.name+'</h3><p class="brief-copy">Innovation and R&D analysis will be based on disclosed R&D expenditure, product announcements and management commentary. No company-specific conclusion is asserted before those sources are retrieved.</p><span class="source-status">AWAITING SOURCE REVIEW</span></div>').join('');
 }
 function switchTab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));}
