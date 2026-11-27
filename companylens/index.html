@@ -197,6 +197,7 @@ function renderLiveComparison(){
  $('#executive-insight').innerHTML='<p><strong>Live evidence retrieved.</strong> Revenue, operating income, net income and other available standard XBRL concepts are drawn from SEC company facts. Values are shown in billions where reported in USD.</p><p>'+warning+' This is a financial-data comparison, not a complete assessment of competitive strength.</p>';
  const sourcesPanel=$('#tab-sources');
  if(sourcesPanel){
+  const existing=sourcesPanel.querySelector('.live-source-records');if(existing)existing.remove();
   const liveBox=secEl('div','panel table-panel live-source-records');
   liveBox.append(secEl('div','panel-kicker','LIVE SOURCE RECORDS'),secEl('h3','','SEC EDGAR source and filing metadata'),secEl('p','brief-copy',warning));
   const list=secEl('div','source-list');
@@ -207,7 +208,6 @@ function renderLiveComparison(){
    row.append(left,secEl('span','source-status','REPORTED XBRL'));list.append(row);
   });
   liveBox.append(list);
-  const existing=sourcesPanel.querySelector('.live-source-records');if(existing)existing.remove();
   sourcesPanel.prepend(liveBox);
  }
  const tag=document.querySelector('#tab-financials .demo-tag');if(tag){tag.className='source-status';tag.textContent='LIVE SEC XBRL · REPORTED VALUES'}
