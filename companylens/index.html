@@ -192,7 +192,7 @@ function renderLiveComparison(){
  $('#financial-table').innerHTML=table(['Reported metric',...vals.map(c=>c.name)],rows);
  $('#financial-kpis').innerHTML=entries.map(({company:c,data})=>{
   const rev=metricValue(data,'revenue'),op=metricValue(data,'operatingIncome'),net=metricValue(data,'netIncome');
-  return '<div class="panel"><div class="panel-kicker">'+c.ticker+' · SEC reported</div><h3>'+c.name+'</h3><div class="big-number">'+moneyBillions(rev)+'</div><div class="metric-sub">Revenue · period ended '+(rev?.fiscalPeriodEnd||'not available')+'</div><div class="metric-compare"><div><strong>'+moneyBillions(op)+'</strong><small>Operating income</small></div><div><strong>'+moneyBillions(net)+'</strong><small>Net income</small></div></div><div class="metric-sub">Filed '+(rev?.filedAt||'date unavailable')+'</div></div>';
+  return '<div class="panel"><div class="panel-kicker">'+c.ticker+' · SEC reported</div><h3>'+c.name+'</h3><div class="big-number">'+moneyBillions(rev)+'</div><div class="metric-sub">Revenue · period ended '+(rev?.fiscalPeriodEnd||'not available')+(rev?.status==='stale'?' · STALE OBSERVATION':'')+'</div><div class="metric-compare"><div><strong>'+moneyBillions(op)+'</strong><small>Operating income'+(op?.status==='stale'?' · stale':'')+'</small></div><div><strong>'+moneyBillions(net)+'</strong><small>Net income'+(net?.status==='stale'?' · stale':'')+'</small></div></div><div class="metric-sub">Filed '+(rev?.filedAt||'date unavailable')+'</div></div>';
  }).join('');
  const chartRows=entries.map(({company:c,data})=>{
   const rev=metricValue(data,'revenue'),op=metricValue(data,'operatingIncome');
