@@ -229,13 +229,43 @@ function renderLiveComparison(){
 }
 function renderSelector(){
  const row=$('#company-row');row.innerHTML='';
- selected.forEach(id=>{const c=company(id);if(!c)return;const chip=document.createElement('div');chip.className='company-chip';chip.innerHTML='<span class="company-symbol">'+c.initials+'</span><span><strong>'+c.name+'</strong><small>'+c.ticker+' · '+c.exchange+'</small></span><button class="remove" aria-label="Remove '+c.name+'" data-remove="'+id+'">×</button>';row.append(chip)});
- if(selected.length<5){const wrap=document.createElement('div');wrap.className='selector-wrap';wrap.innerHTML='<button class="add-company" id="add-company">＋ Add company</button><div class="company-menu" id="company-menu"><input id="company-search" placeholder="Search listed companies…"><div class="company-options" id="company-options"></div></div>';row.append(wrap)}
- const run=document.createElement('button');run.className='run-btn';run.textContent='Generate comparison →';run.onclick=()=>{generateLiveComparison();$('#report').scrollIntoView({behavior:'smooth'})};row.append(run);
- row.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(selected.length<=2){toast('Choose at least two companies.');return}selected=selected.filter(x=>x!==b.dataset.remove);renderSelector();renderReport()});
- const add=$('#add-company');if(add){add.onclick=()=>{$('#company-menu').classList.toggle('open');$('#company-search').focus();renderOptions('')}};const search=$('#company-search');if(search)search.oninput=e=>renderOptions(e.target.value);
+ selected.forEach(id=>{const c=company(id);if(!c)return;const chip=document.createElement('div');chip.className='company-chip';
+  const symbol=secEl('span','company-symbol',c.initials||String(c.name||'?').slice(0,1));
+  const details=secEl('span');details.append(secEl('strong','',c.name),secEl('small','',c.ticker+' · '+c.exchange));
+  const remove=secEl('button','remove','×');remove.type='button';remove.setAttribute('aria-label','Remove '+c.name);remove.dataset.remove=id;
+  chip.append(symbol,details,remove);row.append(chip);
+ });
+ if(selected.length<5){const wrap=document.createElement('div');wrap.className='selector-wrap';
+  wrap.innerHTML='<button class="add-company" id="add-company" type="button">＋ Add company</button><div class="company-menu" id="company-menu"><input id="company-search" placeholder="Search any SEC-listed company…" autocomplete="off"><div class="company-options" id="company-options"><div class="empty-state">Search by company name or ticker. SEC directory coverage is currently US-focused.</div></div></div>';row.append(wrap)}
+ const run=document.createElement('button');run.className='run-btn';run.textContent='Generate comparison →';run.disabled=selected.length<2;run.title=selected.length<2?'Select at least two companies to compare':'';run.onclick=()=>{if(selected.length<2){toast('Select at least two companies.');return}generateLiveComparison();$('#report').scrollIntoView({behavior:'smooth'})};row.append(run);
+ row.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{selected=selected.filter(x=>x!==b.dataset.remove);renderSelector();renderReport()});
+ const add=$('#add-company');if(add){add.onclick=()=>{$('#company-menu').classList.toggle('open');if($('#company-menu').classList.contains('open'))$('#company-search').focus()}};const search=$('#company-search');if(search)search.oninput=e=>renderOptions(e.target.value);
 }
-function renderOptions(q){const box=$('#company-options');if(!box)return;box.innerHTML='';companies.filter(c=>!selected.includes(c.id)&&(c.name.toLowerCase().includes(q.toLowerCase())||c.ticker.toLowerCase().includes(q.toLowerCase()))).forEach(c=>{const b=document.createElement('button');b.className='company-option';b.innerHTML=c.name+'<small>'+c.ticker+' · '+c.exchange+' · catalogue category: '+c.sector+'</small>';b.onclick=()=>{selected.push(c.id);renderSelector();renderReport()};box.append(b)});if(!box.children.length)box.innerHTML='<div class="empty-state">No matching company in this preview registry.</div>'}
+async function renderOptions(q){
+ const box=$('#company-options');if(!box)return;box.innerHTML='';
+ const term=q.trim();if(term.length<2){box.append(secEl('div','empty-state','Enter at least two characters to search the SEC company directory.'));return}
+ box.append(secEl('div','empty-state','Searching SEC company ticker directory…'));
+ try{
+  const response=await fetch('/api/companylens/search?q='+encodeURIComponent(term),{headers:{Accept:'application/json'}});
+  const payload=await response.json();if(!response.ok)throw new Error(payload.error||'SEC company search is unavailable.');
+  box.innerHTML='';
+  const matches=(payload.results||[]).filter(item=>!selected.some(id=>{const current=company(id);return current&&(current.cik===item.cik||current.ticker.toLowerCase()===String(item.ticker).toLowerCase())}));
+  if(!matches.length){box.append(secEl('div','empty-state','No SEC directory matches. Try the full company name or ticker symbol.'));return}
+  matches.forEach(item=>{
+   const option=document.createElement('button');option.type='button';option.className='company-option';
+   option.append(secEl('span','',item.name+' ('+item.ticker+')'));
+   option.append(secEl('small','', 'CIK '+item.cik+' · SEC directory · exchange listing not independently verified'));
+   option.addEventListener('click',()=>{
+    if(selected.length>=5){toast('A comparison can contain up to five companies.');return}
+    const id='sec-'+item.cik;
+    if(!company(id))companies.push({id,name:item.name,ticker:item.ticker,exchange:'SEC directory · exchange unverified',cik:item.cik,initials:String(item.name||item.ticker).slice(0,1).toUpperCase(),sector:'Not yet classified'});
+    selected.push(id);renderSelector();renderReport();
+   });
+   box.append(option);
+  });
+  box.append(secEl('div','metric-sub','SEC directory coverage: '+(payload.coverage||'United States SEC registrants')+'. This search does not yet cover every stock exchange worldwide.'));
+ }catch(err){box.innerHTML='';box.append(secEl('div','source-warning',err.message+' Ensure the SEC connector is configured.'))}
+}
 function table(headers,rows){return '<table><thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map((v,i)=>'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
 function renderReport(){
  const vals=selected.map(company);
