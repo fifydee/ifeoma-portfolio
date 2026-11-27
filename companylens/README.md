@@ -38,3 +38,15 @@ No live AI model, Nigerian/African exchange connectors, user accounts, saved rep
 ## Deployment
 
 The parent repository is a static Cloudflare Pages site with Pages Functions. The preview route is `/companylens/`; the API routes are under `/api/companylens/`. The deployment has not been verified in production in this work session.
+
+## Live SEC comparison pilot
+
+The comparison workspace now has a **Generate comparison** action wired to the SEC Company Facts endpoint for the default US issuers Microsoft (CIK 0000789019), NVIDIA (CIK 0001045810), and Dell Technologies (CIK 0001571996). It retrieves each issuer's latest annual standard XBRL facts and updates the executive overview and financial comparison tables with reported values, filing dates, and period-end dates.
+
+Important boundaries:
+- This is a latest-available-annual comparison, not a common-calendar-period or same-fiscal-year comparison. Fiscal year ends differ; the interface displays period dates and warns users before interpreting cross-company differences.
+- Values are displayed in USD billions only when the SEC unit is USD. Other units are displayed as returned.
+- Operating margin is calculated only when revenue and operating income have the same period end for that issuer.
+- Profiles, competitive position, SWOT, innovation/risk prompts, and analyst responses remain demonstration content. They must not be mistaken for live evidence or AI-generated conclusions.
+- Other companies in the preview registry (currently SAP) are not yet enabled for the live comparison button. Their data should be added only after a verified SEC CIK and successful endpoint test.
+- SEC Company Facts aggregates standard taxonomy facts; company-specific custom tags and disclosures may be missing. See the SEC API documentation: https://www.sec.gov/search-filings/edgar-application-programming-interfaces.
