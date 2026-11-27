@@ -51,3 +51,13 @@ Important boundaries:
 - Company profiles use basic registry metadata. Competitive position and SWOT now remain unpopulated until sourced evidence is available; the analyst remains a limited local response engine, not live AI.
 - Other companies in the preview registry (currently SAP) are not yet enabled for the live comparison button. Their data should be added only after a verified SEC CIK and successful endpoint test.
 - SEC Company Facts aggregates standard taxonomy facts; company-specific custom tags and disclosures may be missing. See the SEC API documentation: https://www.sec.gov/search-filings/edgar-application-programming-interfaces.
+
+## Issuer profile and metric provenance updates
+
+The SEC facts endpoint now also returns issuer registration metadata from the SEC submissions response: SIC code/description, reported ticker symbols and exchanges, fiscal-year-end code, and state of incorporation. The Company profiles tab presents these as filing-entity metadata and does not turn them into unsupported business or competitive claims.
+
+Each selected metric observation includes its period start (where applicable), period end, duration, accession number, filing type, filing date, and a direct filing URL when the accession is present in the recent submissions index. When multiple observations share the same period end, selection prefers the most recently filed observation.
+
+Observations flagged stale are visibly identified in the report and excluded from revenue/operating-income charts and derived operating-margin calculations. They remain visible in the detailed metric table with their source context so users can inspect rather than silently lose the disclosure.
+
+The interface distinguishes SEC-reported registration details from the catalogue's broad research category. No static SWOT or competitive advantage claims are used as company-specific evidence.
