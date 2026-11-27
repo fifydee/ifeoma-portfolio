@@ -160,6 +160,19 @@ function generateLiveComparison(){
  })).then(entries=>{
   liveFactsById=Object.fromEntries(entries);
   renderLiveComparison();
+  $('#report-sub').textContent+=' · retrieving annual filing research';
+  Promise.all(chosen.map(async company=>{
+   const response=await fetch('/api/companylens/research?cik='+encodeURIComponent(company.cik),{headers:{Accept:'application/json'}});
+   const data=await response.json();
+   if(!response.ok)throw new Error(company.ticker+': '+(data.error||'Annual filing research unavailable'));
+   return [company.id,data];
+  })).then(researchEntries=>{
+   renderStrategicResearch(Object.fromEntries(researchEntries));
+   $('#report-sub').textContent='SEC XBRL financial facts and annual filing evidence retrieved · '+new Date().toLocaleString();
+  }).catch(err=>{
+   renderStrategicResearchUnavailable(chosen,err.message);
+   $('#report-sub').textContent='Financial facts retrieved; strategic filing research could not be completed: '+err.message;
+  });
  }).catch(err=>{
   toast(err.message);
   $('#report-sub').textContent='Live retrieval failed. No estimated or placeholder financial values are displayed.';
@@ -226,6 +239,41 @@ function renderLiveComparison(){
   sourcesPanel.prepend(liveBox);
  }
  const tag=$('#financial-status');if(tag){tag.className='source-status';tag.textContent='SEC XBRL · REPORTED VALUES'} const snap=$('#snapshot-status');if(snap){snap.className='source-status';snap.textContent='SEC XBRL · REPORTED VALUES'}
+}
+function renderStrategicResearchUnavailable(chosen,message){
+ const note='<div class="source-warning">Annual filing research could not be retrieved: '+escapeHtml(message)+'. Financial facts remain available; strategic sections are not inferred without filing evidence.</div>';
+ $('#position-table').innerHTML=note;
+ $('#position-ranks').innerHTML='<div class="empty-state">Strategic assessment unavailable until annual filing evidence is retrieved.</div>';
+ $('#swot-cards').innerHTML=note;
+ $('#innovation-cards').innerHTML=note;
+}
+function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function renderStrategicResearch(research){
+ const vals=selected.map(company), records=vals.map(company=>({company,data:research[company.id]})).filter(x=>x.data);
+ const get=(record,key)=>record.data.sections?.[key]||[];
+ const link=(record)=>'<a href="'+escapeHtml(record.data.filing.url)+'" target="_blank" rel="noopener noreferrer">Source: '+escapeHtml(record.data.filing.form)+' · filed '+escapeHtml(record.data.filing.filedAt)+' ↗</a>';
+ const cell=(items)=>items.length?items.slice(0,3).map(x=>'<p class="brief-copy">“'+escapeHtml(x)+'”</p>').join(''):'<span class="metric-sub">Not found in extracted annual filing passages.</span>';
+ const headers=['Research dimension',...records.map(r=>escapeHtml(r.company.name))];
+ const rows=[
+  ['Business model',...records.map(r=>cell(get(r,'businessModel')))],
+  ['Competitive environment',...records.map(r=>cell(get(r,'competition')))],
+  ['Strategic priorities',...records.map(r=>cell(get(r,'strategy')))],
+  ['Disclosed risk factors',...records.map(r=>cell(get(r,'risks')))]
+ ];
+ $('#position-table').innerHTML=table(headers,rows)+'<p class="metric-sub">Evidence extracted from each issuer’s latest annual filing. Filing excerpts are management disclosures, not independently verified market-share claims.</p>'+records.map(link).join(' · ');
+ $('#position-ranks').innerHTML='<div class="brief-copy">No winner is declared from narrative excerpts alone. A defensible ranking needs aligned segment data and independent market measures. The evidence above shows how each issuer describes its business, competition and priorities.</div>';
+ $('#swot-cards').innerHTML=records.map(r=>{
+  const s=get(r,'businessModel').slice(0,2), w=get(r,'risks').slice(0,2), o=get(r,'strategy').slice(0,2), t=get(r,'competition').slice(0,2);
+  return '<article class="company-card"><div class="company-card-head"><div><h3>'+escapeHtml(r.company.name)+'</h3><small>Filing-grounded SWOT signals · '+escapeHtml(r.data.filing.reportDate||'period not supplied')+'</small></div></div><div class="swot-grid"><div class="swot-cell strength"><h4>Strength signals</h4>'+cell(s)+'</div><div class="swot-cell weak"><h4>Weakness / exposure signals</h4>'+cell(w)+'</div><div class="swot-cell opp"><h4>Opportunity signals</h4>'+cell(o)+'</div><div class="swot-cell threat"><h4>Threat signals</h4>'+cell(t)+'</div></div><p class="metric-sub">These are analyst-organised filing signals, not definitive SWOT verdicts.</p>'+link(r)+'</article>';
+ }).join('');
+ $('#innovation-cards').innerHTML=records.map(r=>{
+  const innovation=get(r,'innovation'), strategy=get(r,'strategy'), risks=get(r,'risks');
+  return '<article class="panel"><div class="panel-kicker">'+escapeHtml(r.company.ticker)+' · ANNUAL FILING EVIDENCE</div><h3>'+escapeHtml(r.company.name)+'</h3><strong>Technology and innovation disclosures</strong>'+cell(innovation)+'<strong>Strategic investment and execution</strong>'+cell(strategy.slice(0,3))+'<strong>Related execution risks</strong>'+cell(risks.slice(0,3))+'<p class="metric-sub">'+link(r)+'</p></article>';
+ }).join('');
+ const riskTable='<div class="panel table-panel"><div class="panel-kicker">Filing-grounded risk evidence</div><h3>Risks disclosed by the selected issuers</h3><div class="company-cards">'+records.map(r=>'<article class="company-card"><h3>'+escapeHtml(r.company.name)+'</h3>'+cell(get(r,'risks').slice(0,7))+'<p class="metric-sub">'+link(r)+'</p></article>').join('')+'</div></div>';
+ const innovationRoot=$('#tab-innovation');const prior=innovationRoot.querySelector('.live-risk-evidence');if(prior)prior.remove();const holder=document.createElement('div');holder.className='live-risk-evidence';holder.innerHTML=riskTable;innovationRoot.append(holder);
+ const methodology=records.map(r=>escapeHtml(r.company.name)+': '+escapeHtml(r.data.methodology)).join(' ');
+ $('#executive-insight').innerHTML+='<p><strong>Strategic evidence:</strong> Annual filings were retrieved for '+records.length+' of '+vals.length+' issuers. '+methodology+'</p>';
 }
 function renderSelector(){
  const row=$('#company-row');row.innerHTML='';
