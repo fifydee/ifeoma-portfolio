@@ -67,3 +67,13 @@ The interface distinguishes SEC-reported registration details from the catalogue
 The comparison workspace allows users to remove any selected issuer, including reducing the selection below two while rebuilding a comparison. The Generate Comparison action remains disabled until at least two companies are selected.
 
 The Add company control now searches the SEC company ticker directory by company name or ticker and can add returned issuer candidates directly to the comparison. Candidate records carry their CIK and are passed through the same SEC company-facts retrieval path. The directory is US SEC-focused, does not prove current exchange listing eligibility, and is not a substitute for global exchange coverage. Users should search by a distinctive company name or ticker; exchange identity still requires verification.
+
+## Annual filing research and strategic sections
+
+The comparison flow now calls `/api/companylens/research?cik=...` for each selected SEC issuer after financial facts are retrieved. The endpoint locates the latest 10-K, 20-F or 40-F from SEC submissions, retrieves the filing document, and extracts passages related to business model, competition, strategy, risks and innovation. The Competitive Position, SWOT, and Innovation & Risk sections display these issuer-attributed excerpts with links to the filing.
+
+Important limitations:
+- This is rule-assisted filing passage extraction and evidence organization, not a live generative-AI analyst. It does not yet synthesize the full filing, independently verify management claims, or research external market/competitor data.
+- SWOT labels are analyst-organized signals from filing passages, not definitive conclusions. Risk disclosures are not automatically evidence that a weakness has materialized.
+- Filing HTML can contain tables, inline XBRL and unusual structures; simple text extraction may omit context or miss relevant passages.
+- A complete strategic analyst still requires a grounded AI model integration and additional reputable market, industry, product, patent and regulatory sources. Until then, the interface should not claim that it has produced a comprehensive competitive ranking.
