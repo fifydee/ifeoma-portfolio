@@ -11,11 +11,11 @@ const INSTANT_METRICS = new Set(["assets"]);
 
 export async function onRequestGet({ request, env }) {
   const userAgent = env.SEC_USER_AGENT;
-  if (!userAgent || !/\\S+@\\S+\\.\\S+/.test(userAgent)) {
+  if (!userAgent || !/\S+@\S+\.\S+/.test(userAgent)) {
     return json({ error: "SEC connector is not configured. Set SEC_USER_AGENT to an application name and monitored contact email before enabling requests." }, 503);
   }
   const raw = (new URL(request.url).searchParams.get("cik") || "").trim();
-  if (!/^\\d{1,10}$/.test(raw)) return json({ error: "Provide a valid SEC CIK." }, 400);
+  if (!/^\d{1,10}$/.test(raw)) return json({ error: "Provide a valid SEC CIK." }, 400);
   const cik = raw.padStart(10, "0");
   const endpoint = `https://data.sec.gov/api/xbrl/companyfacts/CIK${cik}.json`;
   try {
